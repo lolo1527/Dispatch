@@ -1,0 +1,48 @@
+<h2><span class="glyphicon glyphicon-map-marker"></span>Endpoints</h2>
+
+
+<button class="btn btn-primary ol-btn-create" ng-click="create()">
+    <span class="glyphicon glyphicon-plus"></span>Create an endpoint
+</button>
+
+<p ng-show="endpoints.length > 0">{{results.length}} endpoint{{results.length > 1 ? "s" : ""}}</p>
+<p ng-show="endpoints.length == 0">No endpoint</p>
+
+<!--table class="table table-striped table-hover environment-list" ng-show="enpoints.length > 0"-->
+<table class="table table-striped table-hover environment-list">
+    <thead>
+        <tr>
+            <th></th>
+            <th>id</th>
+            <th>application</th>
+            <th>url</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    	<tr ng-repeat="endpoint in endpoints">
+            <td width="30px">
+                <span
+        			class="glyphicon map-marker"
+        			ng-class="{'glyphicon-map-marker':true}"
+                    ng-click="select(endpoint.id)"
+        		></span>
+            </td>
+            <td>{{endpoint.id}}</td>
+            <td>{{endpoint.application}}</td>
+            <td>{{endpoint.url}}</td>
+            <td>
+                <button class="btn btn-primary" ng-click="modify(environment)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+    	</tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="12">
+                <ol-pagination></ol-pagination>
+            </td>
+        </tr>
+    </tfoot>
+</table>

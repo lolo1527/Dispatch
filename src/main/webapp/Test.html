@@ -1,0 +1,93 @@
+<!doctype html>
+<html ng-app="dispatch">
+  <head>
+  	<title>DisPoc</title>
+    <!--link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css"-->
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/bootstrap.css">  
+    <link rel="stylesheet" href="dispatch.css">
+    <!-- script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="components/version/version.js"></script>
+    <script src="components/version/interpolate-filter.js"></script>
+    <script src="components/version/version-directive.js"></script>
+	<!-- module -->
+    <script src="script/dispatch.js"></script>
+	<!-- controlers -->
+    <script src="script/ctrl/EndpointCtrl.js"></script>
+    <script src="script/ctrl/indexCtrl.js"></script>
+    <script src="script/ctrl/RouteCtrl.js"></script>
+	<!-- services -->
+    <script src="script/services/EndpointService.js"></script>
+    <script src="script/services/RouteService.js"></script>
+
+  </head>
+
+  <body>
+  <div id=wrap>
+	<header class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <nav class="hidden-xs">
+                <ul class="nav navbar-nav pull-left">
+                    <li><a href="#home" role="button" class="glyphicon glyphicon-home"></a><li>
+                    <li><a href="#home" role="button" class="navbar-brand">Home</a><li>
+                </ul>
+	        </nav>
+	        <nav class="hidden-xs">
+	            <ul class="nav nav navbar-nav pull-right">
+	            	<li><a href="#login" class="navbar-brand">login</a></li>
+		        </ul>
+	        </nav>
+	        <nav class="hidden-xs">
+	            <ul class="nav nav navbar-nav pull-right">
+	                <li class="dropdown">
+	                	<a role="button" class="dropdown-toggle">Environment<b class="caret"></b></a>
+	                        <ul class="dropdown-menu">
+	                        <li><a href="#accordion">France</a></li>
+	                        <li><a href="#alert">United Kingdom</a></li>
+	                        <li><a href="#buttons">United states</a></li>
+	                        <li><a href="#carousel">Spain</a></li>
+	                        <li><a href="#collapse">Australia</a></li>
+	                        <li><a href="#datepicker">China</a></li>
+	                        <li><a href="#dropdown">Austria</a></li>
+	                        <li><a href="#modal">Sweden</a></li>
+	                        <li><a href="#pagination">Dubai</a></li>
+	                    	<li><a href="#popover">Norway</a></li>
+	                    	<li><a href="#popover">Groland</a></li>
+	                	</ul>
+	            	</li>
+		        </ul>
+	        </nav>
+        </div>
+        
+             <nav>
+                <!--h1>
+                    <a href="#">OpenLayer</a> <span class="version">v{{global.version}}</span>
+                </h1-->
+                
+                <ul class="menu">
+                    <li><span class="glyphicon glyphicon-cog"></span><a href="#application">Application</a></li>
+                    <li class="environment"><span class="glyphicon glyphicon-map-marker"></span><a href="#endpoint">EndPoints</a></li>
+                    <li><span class="glyphicon glyphicon-play"></span><a href="#route">Routes</a></li>
+                    <li><span class="glyphicon glyphicon-comment"></span><a href="#message">Messages</a></li>
+                    <!--li><span class="glyphicon glyphicon-tasks"></span><a href="#task">Tasks</a></li>
+                    <li><span class="glyphicon glyphicon-info-sign"></span><a href="#tasklog">Task logs</a></li-->
+                </ul>
+            </nav>
+
+</header>
+
+<div class="header-placeholder"></div>
+<div class="container">
+    <h3 class="title"> Welcome to DISPOC </h3>
+	  <p align="center"> Here you can manage endpoints and routes</p>
+</div>
+
+<main ng-view></main>
+
+  </div>
+  </body>
+</html>

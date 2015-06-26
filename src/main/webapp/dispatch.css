@@ -1,0 +1,315 @@
+/* vendor: UI Bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+body {
+    font-size: 14px;
+    min-width: 1024px;
+}
+
+.clearfix::after {
+    content: " ";
+    clear: both;
+}
+
+a {
+    cursor: pointer;
+}
+
+h1 .version {
+    font-size: .4em;
+    color: #777;
+    font-weight: bold;
+}
+
+table.table em {
+    font-style: normal;
+    background-color: yellow;
+}
+
+body > #wrap > header nav ul.menu .glyphicon,
+body > #wrap > header #selections button .glyphicon,
+body > #wrap > header #selections label .glyphicon,
+body > #wrap > aside dt .glyphicon,
+.list-group-item .glyphicon,
+table th .glyphicon,
+table td .glyphicon,
+.input-group-addon .glyphicon,
+button .glyphicon-plus,
+.modal-footer button .glyphicon {
+    margin: 0 4px 0 0;
+}
+
+h2 .glyphicon,
+h3 .glyphicon {
+    margin: 0 10px 0 0;
+}
+
+body > #wrap > aside {
+    padding: 10px;
+    overflow: auto;
+    background: lightgray;
+    position: fixed;
+    z-index: 3; 
+    top: 0;
+    bottom: 0;
+    font-size: .9em;
+}
+
+.modal-backdrop {
+    position: fixed;
+    bottom: 0;
+}
+.modal-backdrop.in {
+    opacity: .1;
+    filter: alpha(opacity:10);
+}
+
+body.modal-open > #wrap {
+    -webkit-filter: blur(4px) grayscale(0.8);
+}
+
+@media screen and (max-width: 1044px) {
+    body > #wrap > aside {
+        left: 724px;
+        width: 315px;
+    }
+}
+
+@media screen and (min-width: 1045px) {
+    body > #wrap > aside {
+        right: 0;
+        width: 300px;
+    }
+}
+
+body > #wrap > aside ul {
+    padding-left: 15px;
+}
+
+body > #wrap > header {
+    padding: 10px 310px 10px 10px;
+    background: #444;
+    color: #EEE;
+}
+
+body > #wrap > header #selections {
+    float: right;
+}
+
+body > #wrap > header #selections select {
+    color: #333;
+}
+
+body > #wrap > header nav a,
+body > #wrap > header nav a:link,
+body > #wrap > header nav a:hover,
+body > #wrap > header nav a:active,
+body > #wrap > header nav a:visited {
+    color: inherit;
+}
+
+body > #wrap > header nav h1 {
+    display: inline;
+    line-height: 60px;
+}
+
+body > #wrap > header nav h1 a:hover {
+    text-decoration: none;
+}
+
+body > #wrap > header nav ul.menu {
+    display: table;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 600px;
+}
+
+body > #wrap > header nav ul.menu li {
+    display: table-cell;
+    padding: 0 10px;
+    white-space: nowrap;
+}
+
+body > #wrap > header nav ul.menu li.environment {
+    
+    padding-left: 50px;
+}
+
+body > #wrap > header nav ul.menu li:first-of-type {
+    padding-left: 0;
+}
+
+body > #wrap > header nav ul.menu li:last-of-type {
+    padding-right: 0;
+}
+
+main {
+    padding: 10px 310px 10px 10px;
+    min-width: 1004px;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+}
+
+ng-messages {
+    display: block;
+    margin: 0 0 10px;
+}
+
+ng-message {
+    display: block;
+    text-align: left;
+}
+.progress {
+    width: 400px;
+    margin: 0 auto 10px;
+}
+.modal-footer .progress {
+    float: left;
+    width: 200px;
+    margin: 0;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td.date {
+    white-space: nowrap;
+}
+
+.table > thead > tr > th button .glyphicon,
+.table > thead > tr > th .glyphicon.sort {
+    float: right;
+}
+
+.table > thead > tr > th.sortable {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.table > thead > tr > th.sortable:hover {
+    background-color: #eee;
+}
+
+.table > thead > tr > th.sort,
+.table > tbody > tr > td.sort {
+    background-color: #f5f5f5;
+}
+
+.bg-new,
+.table > tbody > tr.new {
+    background-color: #E8D1FF;
+}
+
+.text-new {
+    color: #74687F;
+}
+
+.table > tbody > tr:hover > td.sort {
+    background-color: #eee;
+}
+
+.table > tbody > tr.info > td.sort {
+    background-color: #c4e3f3;
+}
+ 
+.table > tbody > tr.success > td.sort {
+    background-color: #d0e9c6;
+} 
+
+.table > tbody > tr.new:hover,
+.table > tbody > tr.new > td.sort {
+    background-color: #D1BCE6;
+}
+
+.table > tbody > tr > td summary {
+    font-size: .8em;
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table > tfoot > tr > td[colspan] {
+    padding: 0;
+}
+
+.environment-list .glyphicon-folder-close,
+.environment-modal .glyphicon-folder-close {
+    cursor: pointer;
+}
+
+.environment-modal .glyphicon-ok {
+    float: right;
+}
+
+[popover] {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+ol-pagination {
+    float: right;
+}
+
+.form-filter .form-inline {
+    margin-bottom: 10px;
+}
+
+.form-filter + p {
+    margin: 0;
+}
+
+.form-page {
+    float: left;
+    margin: 20px 0;
+}
+
+form label > input[type=checkbox],
+form label > input[type=radio] {
+    margin-right: 10px;
+}
+
+field.required label::after {
+    content: " *";
+    color: #a94442;
+}
+
+.form-horizontal .control-label.label-checkbox {
+    text-align: left;
+}
+
+ol-page select + .input-group-addon,
+ol-page select + .input-group-addon + .input-group-addon {
+    border-left: 0;
+}
+
+.field-timezone .input-group-addon {
+    border-left: 0;
+    border-right: 0;
+}
+
+.modal-header {
+    border-radius: 6px 6px 0 0;
+}
+
+.modal-header.bg-default {
+    color: #777;
+    background: #DDD;
+}
+
+.modal-footer {
+    background: #EEE;
+    border-radius: 0 0 6px 6px;
+}
+
+.ol-btn-create {
+    float: right;
+}
+
+@media print {
+    body > #wrap > aside,
+    body.modal-open > #wrap,
+    .modal-backdrop.in {
+        display: none;
+    }
+}

@@ -1,6 +1,8 @@
 package com.lbi.mytestapplication.common;
 
+import com.lbi.mytestapplication.domain.entity.Connector;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
+import com.lbi.mytestapplication.domain.entity.Post;
 import com.lbi.mytestapplication.domain.entity.Route;
 
 public class EntityMapper {
@@ -41,5 +43,41 @@ public class EntityMapper {
     	ep.setUrl(epr.getUrl());
     	return ep;
     }
+
+
+	public static com.lbi.mytestapplication.rest.ressource.Post mapDomainEntityToRestResource(Post post) {
+		com.lbi.mytestapplication.rest.ressource.Post postRsc = new com.lbi.mytestapplication.rest.ressource.Post();
+		postRsc.setMessage(post.getMessage());
+		postRsc.setEndpoint(mapDomainEntityToRestResource(post.getEndpoint()));
+		postRsc.setId(post.getId());
+		return postRsc;
+	}
+
+
+	public static Post mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Post postRsc) {
+		Post post = new Post();
+		post.setEndpoint(mapRestResourceToDomainEntity(postRsc.getEndpoint()));
+		post.setMessage(postRsc.getMessage());
+		post.setId(postRsc.getId());
+		return post;
+	}
+
+
+	public static Connector mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Connector connector) {
+		Connector connect = new Connector();
+		connect.setEndpoint(mapRestResourceToDomainEntity(connector.getEndpoint()));
+		connect.setName(connector.getName());
+		connect.setId(connector.getId());
+		return connect;
+	}
+
+
+	public static com.lbi.mytestapplication.rest.ressource.Connector mapDomainEntityToRestResource(Connector c) {
+		com.lbi.mytestapplication.rest.ressource.Connector connectRsc = new com.lbi.mytestapplication.rest.ressource.Connector();
+		connectRsc.setName(c.getName());
+		connectRsc.setEndpoint(mapDomainEntityToRestResource(c.getEndpoint()));
+		connectRsc.setId(c.getId());
+		return connectRsc;
+	}
 
 }

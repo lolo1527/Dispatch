@@ -51,5 +51,8 @@ public class EndPoint {
 		this.url = url;
 	}
 	
+	public String toString(){
+		return "app:" + application + "/url:" + url;
+	}
 
 }

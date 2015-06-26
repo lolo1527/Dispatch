@@ -24,13 +24,14 @@ public class EndPointManager {
 	EndPointDAO dao;
 	
 	@Inject
-	CamelBootstrap camelBootstrap;
-	
+	CamelManager camelMgr;
+
+
 	public void createEndPoint(EndPoint ep){
 		try {
 			utx.begin();
 			dao.createEndPoint(ep);
-			addCamelEndpoint(ep.getApplication());
+			addCamelEndpoint(ep.getUrl());
 			utx.commit();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(),e);
@@ -42,17 +43,18 @@ public class EndPointManager {
 		}
 	}
 
-	public Endpoint addCamelEndpoint(String queue){
-		return camelBootstrap.addSEDAEndpoint(queue);
+	public Endpoint addCamelEndpoint(String url){
+		return camelMgr.addSEDAEndpoint(url);
 	}
 	
 	
 	public Collection<Endpoint> getCamelEndpoints(){
-		Collection<Endpoint> eps = camelBootstrap.getCamelEndpoints();
+		Collection<Endpoint> eps = camelMgr.getCamelEndpoints();
+		/*
 		for (Endpoint ep : eps){
 			logger.info("Camel Endpoint : " + ep);
-			camelBootstrap.getCamelEndpoint(ep.getEndpointKey());
-		}
+			camelMgr.getCamelEndpoint(ep.getEndpointKey());
+		}*/
 		return eps;
 	}
 

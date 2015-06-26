@@ -1,0 +1,65 @@
+<div class="modal-header environment-modal bg-new">
+	<h3 class="modal-title text-new">
+        <span ng-show="environment.enabled" class="glyphicon glyphicon-ok text-success"></span>
+        <span class="glyphicon glyphicon-th"></span>{{new ? 'New endpoint' : endpoint.name}}
+    </h3>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="routeCreate">
+        <fieldset>
+            <legend>Route</legend>
+            <field class="form-group required" ng-class="{'has-error': !endpointCreate.id.$valid}">
+                <label class="col-sm-3 control-label">Source</label>
+                <div class="col-sm-9">
+                    <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        name="envId"
+                        placeholder="Identifier"
+                        required
+                        ng-model="endpoint.id"
+                        ng-disabled="!new"
+                    >
+                </div>
+            </field>
+            <field class="form-group required" ng-class="{'has-error': !endpointCreate.application.$valid}">
+                <label class="col-sm-3 control-label">Destination</label>
+                <div class="col-sm-9">
+                    <input
+                        type="text"
+                        maxlength="30"
+                        class="form-control"
+                        name="name"
+                        placeholder="30 characters max"
+                        required
+                        ng-model="endpoint.application"
+                    >
+                </div>
+            </field>
+            <field class="form-group required" ng-class="{'has-error': !endpointCreate.url.$valid}">
+                <label class="col-sm-3 control-label">URL</label>
+                <div class="col-sm-9">
+                    <input
+                        type="text"
+                        maxlength="20"
+                        class="form-control"
+                        name="bsName"
+                        placeholder="20 characters max"
+                        required
+                        ng-model="endpoint.url"
+                    >
+                </div>
+            </field>
+        </fieldset>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <!--ol-notifs></ol-notifs>
+    <ol-progress></ol-progress-->
+    
+	<button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+	<button class="btn" ng-click="save()" ng-class="{'btn-success': environmentCreate.$valid}" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>Save</button>
+</div>

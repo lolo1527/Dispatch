@@ -31,7 +31,7 @@ public class EndPointDAO {
 	}
 
 	
-	public void createRoute(Route r) {
+/*	public void createRoute(Route r) {
 			EndPoint source = getEndpointByName(r.getSource().getApplication());
 			EndPoint dest = getEndpointByName(r.getDestination().getApplication());
 			r.setSource(source);
@@ -52,5 +52,6 @@ public class EndPointDAO {
     	Query query = em.createQuery("SELECT r FROM Route r");
         return (List<Route>) query.getResultList();
 	}
-
+*/
+	
 }
