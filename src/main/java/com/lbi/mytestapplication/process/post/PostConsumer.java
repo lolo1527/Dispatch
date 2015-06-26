@@ -2,41 +2,52 @@ package com.lbi.mytestapplication.process.post;
 
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
 
 import org.apache.camel.Endpoint;
 import org.apache.camel.Processor;
-import org.apache.camel.impl.DefaultRouteContext;
-import org.apache.camel.impl.EventDrivenConsumerRoute;
-import org.apache.camel.spi.RouteContext;
+import org.apache.camel.component.seda.SedaConsumer;
+import org.apache.camel.component.seda.SedaEndpoint;
 
 import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.process.CamelManager;
-import com.lbi.mytestapplication.rest.ConnectorService;
 
 public class PostConsumer {
 
-	Logger logger = Logger.getLogger(ConnectorService.class.getName());
+	Logger logger = Logger.getLogger(PostConsumer.class.getName());
+	SedaConsumer consumer =  null;
 
-	EventDrivenConsumerRoute consumer;
+	@Inject
+	CamelManager camelMgr;
+
+	@Inject
+	Processor processor;
 	
-    //@Inject
-    //CdiCamelContext camelCtx;
-
-	public PostConsumer(EndPoint endpoint, CamelManager camelMgr) {		
+	
+	/*public PostConsumer(EndPoint endpoint, CamelManager camelMgr) {		
 		//CamelManager camelMgr = new CamelManager();
-		logger.info("camelCtx = " + camelMgr.getCamelContext());
-		RouteContext routeCtx = new DefaultRouteContext(camelMgr.getCamelContext());
-		logger.info("routeCtx = " + routeCtx);
-		Processor processor = new PostProcessor();
+		//logger.info("camelCtx = " + camelMgr.getCamelContext());
+		//RouteContext routeCtx = new DefaultRouteContext(camelMgr.getCamelContext());
+		//logger.info("routeCtx = " + routeCtx);
+		//Processor processor = new PostProcessor();
 		((PostProcessor)processor).setEndPoint(endpoint);
 		logger.info("processor = " + processor);
 		Endpoint ep = camelMgr.getCamelEndpoint(endpoint.getUrl());
 		logger.info("endPoint = " + ep);
-		consumer =  new EventDrivenConsumerRoute(routeCtx, ep, processor);
+		//consumer =  new EventDrivenConsumerRoute(routeCtx, ep, processor);
+		consumer =  new SedaConsumer((SedaEndpoint) ep, processor);
 		logger.info("consumer = " + consumer);
+	}*/
+	
+	
+	public void createConsumer(EndPoint endpoint){
+		((PostProcessor)processor).setEndPoint(endpoint);
+		Endpoint ep = camelMgr.getCamelEndpoint(endpoint.getUrl());
+		logger.info("endPoint = " + ep);
+		consumer =  new SedaConsumer((SedaEndpoint) ep, processor);
 	}
-	
-	
+
+
 	public void start() throws Exception{
 		consumer.start();
 	}

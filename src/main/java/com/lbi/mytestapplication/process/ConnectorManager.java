@@ -14,13 +14,18 @@ public class ConnectorManager {
 	
 	@Inject
 	CamelManager camelMgr;
+	
+	@Inject
+	PostConsumer consumer;
+	
 
 	
 	public void createConnector(Connector connect){
 		logger.info("create consumer...");
-		PostConsumer consumer = new PostConsumer(connect.getEndpoint(), camelMgr);
+		//PostConsumer consumer = new PostConsumer(connect.getEndpoint(), camelMgr);
 		logger.info("consumer : " + consumer);
 		try {
+			consumer.createConsumer(connect.getEndpoint());
 			consumer.start();
 		} catch (Exception e) {
 			logger.severe(e.getMessage());

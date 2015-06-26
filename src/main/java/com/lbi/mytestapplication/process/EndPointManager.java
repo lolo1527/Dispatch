@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import org.apache.camel.Endpoint;
+import org.apache.camel.component.seda.SedaEndpoint;
 
 import com.lbi.mytestapplication.domain.EndPointDAO;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
@@ -50,11 +51,13 @@ public class EndPointManager {
 	
 	public Collection<Endpoint> getCamelEndpoints(){
 		Collection<Endpoint> eps = camelMgr.getCamelEndpoints();
-		/*
 		for (Endpoint ep : eps){
-			logger.info("Camel Endpoint : " + ep);
-			camelMgr.getCamelEndpoint(ep.getEndpointKey());
-		}*/
+			if(ep instanceof SedaEndpoint) {
+				SedaEndpoint seda = (SedaEndpoint) ep;
+				logger.info("Camel Endpoint : " + ep + "- message(s) in queue : " + seda.getExchanges().size());
+			}
+			//camelMgr.getCamelEndpoint(ep.getEndpointKey());
+		}
 		return eps;
 	}
 

@@ -5,14 +5,14 @@ import javax.inject.Inject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import com.lbi.mytestapplication.domain.PostDAO;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.domain.entity.Post;
+import com.lbi.mytestapplication.process.PostManager;
 
 public class PostProcessor implements Processor {
 	
 	@Inject
-	PostDAO postDAO;
+	PostManager postmgr;
 	
 	EndPoint endPoint = null; 
 
@@ -22,9 +22,9 @@ public class PostProcessor implements Processor {
 		Post p = new Post();
 		p.setEndpoint(endPoint);
 		p.setMessage((String)exch.getIn().getBody());
-		postDAO.createPost(p);
+		//postDAO = new PostDAO();
+		postmgr.createPost(p);
 		// TODO getEndpoint from exchange...
-		
 	}
 
 
