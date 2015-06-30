@@ -1,13 +1,13 @@
-angular.module('dispatch').controller('EndpointCtrl', ['$scope', '$log', '$modal', 'Endpoint', function ($scope, $log, $modal, Endpoint) {
+angular.module('dispatch').controller('EndpointCtrl', ['$scope', '$log', '$modal', 'EndpointService', function ($scope, $log, $modal, EndpointService) {
   
   $log.info('Before service call...');
   //$scope.endpoints = Endpoint.getAllEndpoints();
-  $log.info('service url = ' + Endpoint);
-  $scope.endpoints = Endpoint.query();  
+  $log.info('service url = ' + EndpointService);
+  $scope.endpoints = EndpointService.query();  
   $log.info('After service call - endpoints.length :', $scope.endpoints.length );
   
   $scope.new_endpoint = {'id': null, 'application': '', 'url': ''};        
-  var endpoint = new Endpoint();
+  var endpoint = new EndpointService();
   //newCard.name = "Mike Smith";
   //newCard.$save();
   

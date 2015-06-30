@@ -1,7 +1,7 @@
 <div class="modal-header environment-modal bg-new">
 	<h3 class="modal-title text-new">
         <span ng-show="environment.enabled" class="glyphicon glyphicon-ok text-success"></span>
-        <span class="glyphicon glyphicon-th"></span>{{new ? 'New endpoint' : endpoint.name}}
+        <span class="glyphicon glyphicon-th"></span>{{new ? 'New route' : route.source.name + ' to ' + route.destination.name}}
     </h3>
 </div>
 
@@ -9,10 +9,13 @@
     <form class="form-horizontal" role="form" name="routeCreate">
         <fieldset>
             <legend>Route</legend>
-            <field class="form-group required" ng-class="{'has-error': !endpointCreate.id.$valid}">
+            <li ng-repeat="endpoint in $scope.endpoints">
+      			<label>Name: <input ng-model="enpoint.application"></label>
+		    </li>
+            <field class="form-group required">
                 <label class="col-sm-3 control-label">Source</label>
-                <div class="col-sm-9">
-                    <input
+                <!-- div class="col-sm-9">
+                    <select 
                         type="number"
                         min="0"
                         class="form-control"
@@ -22,11 +25,25 @@
                         ng-model="endpoint.id"
                         ng-disabled="!new"
                     >
-                </div>
-            </field>
-            <field class="form-group required" ng-class="{'has-error': !endpointCreate.application.$valid}">
-                <label class="col-sm-3 control-label">Destination</label>
+                </div-->
                 <div class="col-sm-9">
+                    <select class="form-control" name="source_ep"
+                        ng-options="endpoint.application for endpoint in endpoints"
+                        ng-model="route.source"
+                        required>
+                    </select>
+                    <!--  select class="form-control"
+                        name="source_ep"
+                        ng-options="enpoint.application for endpoint in $scope.endpoints"
+                        ng-model="route.source"
+                        required>
+                    </select-->
+                </div>
+                <div>Selected: {{route.source}}</div>
+            </field>
+            <field class="form-group required">
+                <label class="col-sm-3 control-label">Destination</label>
+                <!--  div class="col-sm-9">
                     <input
                         type="text"
                         maxlength="30"
@@ -36,19 +53,28 @@
                         required
                         ng-model="endpoint.application"
                     >
+                </div-->
+                <div class="col-sm-9">
+                    <select class="form-control"
+                        name="destination_ep"
+                        ng-options="endpoint.application for endpoint in endpoints"
+                        ng-model="route.destination"
+                        required>
+                    </select>
                 </div>
+                <div>Selected: {{route.destination}}</div>
             </field>
             <field class="form-group required" ng-class="{'has-error': !endpointCreate.url.$valid}">
-                <label class="col-sm-3 control-label">URL</label>
+                <label class="col-sm-3 control-label">Status</label>
                 <div class="col-sm-9">
                     <input
                         type="text"
                         maxlength="20"
                         class="form-control"
-                        name="bsName"
+                        name="status"
                         placeholder="20 characters max"
                         required
-                        ng-model="endpoint.url"
+                        ng-model="route.status"
                     >
                 </div>
             </field>
@@ -62,4 +88,5 @@
     
 	<button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
 	<button class="btn" ng-click="save()" ng-class="{'btn-success': environmentCreate.$valid}" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>Save</button>
+	<button class="btn" ng-click="log()" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>log</button>
 </div>

@@ -2,8 +2,8 @@
 
 angular.module('dispatch')
 
-    .factory('Endpoint', ['$resource', function ($resource) {
-        	var Endpoint = $resource('/mytestapplication/service/endpoint',{},{
+    .factory('EndpointService', ['$resource', function ($resource) {
+        	var EndpointService = $resource('/mytestapplication/service/endpoint',{},{
         		query: {
         			method: 'GET', 
         			isArray: true,
@@ -25,7 +25,7 @@ angular.module('dispatch')
                     method: 'POST'
                 }
         	});
-        	return Endpoint;
+        	return EndpointService;
                     
             /*return $resource(
                 //App.getResourceUrl('endpoint'),
