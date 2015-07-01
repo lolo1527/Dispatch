@@ -21,21 +21,27 @@ public class RouteDAO {
 		r.setSource(source);
 		r.setDestination(dest);
         em.persist(r);
-}
+	}
 
 
-private EndPoint getEndpointByName(String application) {
-	Query query = em.createQuery("SELECT e FROM EndPoint e WHERE e.application='" + application + "'");
-	List<EndPoint> result = (List<EndPoint>)query.getResultList();
-    return result.get(0);
-}
+	private EndPoint getEndpointByName(String application) {
+		Query query = em.createQuery("SELECT e FROM EndPoint e WHERE e.application='" + application + "'");
+		List<EndPoint> result = (List<EndPoint>)query.getResultList();
+	    return result.get(0);
+	}
 
 
-@SuppressWarnings("unchecked")
-public List<Route> getAllRoutes() {
-	Query query = em.createQuery("SELECT r FROM Route r");
-    return (List<Route>) query.getResultList();
-}
+	@SuppressWarnings("unchecked")
+	public List<Route> getAllRoutes() {
+		Query query = em.createQuery("SELECT r FROM Route r");
+	    return (List<Route>) query.getResultList();
+	}
+
+
+	public Route getRouteById(int id) {
+		Query query = em.createQuery("SELECT r FROM Route r where r.id = " + id);
+	    return ((List<Route>) query.getResultList()).get(0);
+	}
 
 
 }

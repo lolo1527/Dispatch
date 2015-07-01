@@ -25,6 +25,8 @@ public class Route {
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	private String routeId;
 
 	/**
 	 * @return the id
@@ -80,6 +82,24 @@ public class Route {
 	 */
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public String toString(){
+		return "Route:id="+id+" [from " + source.getApplication() + " to " + destination.getApplication()+ "]";
+	}
+
+	/**
+	 * @return the routeId
+	 */
+	public String getRouteId() {
+		return routeId;
+	}
+
+	/**
+	 * @param routeId the routeId to set
+	 */
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
 	}
 
 }

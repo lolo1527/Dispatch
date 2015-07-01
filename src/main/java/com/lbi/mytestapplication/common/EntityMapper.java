@@ -8,23 +8,35 @@ import com.lbi.mytestapplication.domain.entity.Route;
 public class EntityMapper {
 
 	
-    public static com.lbi.mytestapplication.rest.ressource.Route mapDomainEntityToRestResource(Route ep){
-    	com.lbi.mytestapplication.rest.ressource.Route epr = new com.lbi.mytestapplication.rest.ressource.Route();
-    	epr.setId(ep.getId());
-    	epr.setSource(mapDomainEntityToRestResource(ep.getSource()));
-    	epr.setDestination(mapDomainEntityToRestResource(ep.getDestination()));
-    	epr.setStatus(ep.getStatus());
-    	return epr;
+    public static com.lbi.mytestapplication.rest.ressource.Route mapDomainEntityToRestResource(Route route){
+    	com.lbi.mytestapplication.rest.ressource.Route routeRsc = new com.lbi.mytestapplication.rest.ressource.Route();
+    	routeRsc.setId(route.getId());
+    	routeRsc.setSource(mapDomainEntityToRestResource(route.getSource()));
+    	routeRsc.setDestination(mapDomainEntityToRestResource(route.getDestination()));
+    	routeRsc.setStatus(route.getStatus());
+    	if(route.getRouteId() != null){
+    		routeRsc.setRouteId(route.getRouteId());
+    	} else{
+    		String id = route.getSource().getUrl()+ route.getDestination().getUrl();
+    		routeRsc.setRouteId(String.valueOf(id.hashCode()));
+    	}
+    	return routeRsc;
     }
     
 
-    public static Route mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Route epr){
-    	Route ep = new Route();
-    	ep.setId(epr.getId());
-    	ep.setSource(mapRestResourceToDomainEntity(epr.getSource()));
-    	ep.setDestination(mapRestResourceToDomainEntity(epr.getDestination()));
-    	ep.setStatus(epr.getStatus());
-    	return ep;
+    public static Route mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Route routeRsc){
+    	Route route = new Route();
+    	route.setId(routeRsc.getId());
+    	route.setSource(mapRestResourceToDomainEntity(routeRsc.getSource()));
+    	route.setDestination(mapRestResourceToDomainEntity(routeRsc.getDestination()));
+    	route.setStatus(routeRsc.getStatus());
+    	if(routeRsc.getRouteId() != null){
+    		route.setRouteId(routeRsc.getRouteId());
+    	} else{
+    		String id = routeRsc.getSource().getUrl()+ routeRsc.getDestination().getUrl();
+    		route.setRouteId(String.valueOf(id.hashCode()));
+    	}
+    	return route;
     }
 
     public static com.lbi.mytestapplication.rest.ressource.EndPoint mapDomainEntityToRestResource(EndPoint ep){

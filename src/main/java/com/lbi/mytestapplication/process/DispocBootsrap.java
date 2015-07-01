@@ -63,6 +63,8 @@ public class DispocBootsrap {
 		r.setDestination(ep2);
 		r.setSource(ep);
 		r.setStatus(Status.STOPPED);
+		String id = r.getSource().getUrl()+ r.getDestination().getUrl();
+		r.setRouteId(String.valueOf(id.hashCode()));
 		routeMgr.createRoute(r);
 	}
 

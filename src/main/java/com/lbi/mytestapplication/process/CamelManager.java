@@ -11,6 +11,9 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.CdiCamelContext;
 import org.apache.camel.component.seda.SedaEndpoint;
+import org.apache.camel.model.RouteDefinition;
+
+import com.lbi.mytestapplication.domain.entity.Route;
 
 public class CamelManager {
 	
@@ -42,19 +45,27 @@ public class CamelManager {
         return se;
     }
 
-	public void addRoute(String source, String destination) throws Exception {
+	public void addRoute(Route r) throws Exception {
         // Add Camel Route
-		final Endpoint sourceEp = getCamelEndpoint(source);
-		final Endpoint destinationEp = getCamelEndpoint(destination);
+		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl());
+		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl());
+		final String routeId = r.getRouteId();
         RouteBuilder builder = new RouteBuilder() {
             public void configure() {
                 errorHandler(deadLetterChannel("mock:error"));
-                from(sourceEp).to(destinationEp).stop();
+                RouteDefinition def = from(sourceEp).to(destinationEp);
+                def.routeId(routeId);
             }
         };
         camelCtx.addRoutes(builder);
+        // stop route at creation
+        camelCtx.stopRoute(routeId);
 	}
 
+	public org.apache.camel.Route getRoute(Route r){
+		return camelCtx.getRoute(r.getRouteId());
+	}
+	
 	public Collection<Endpoint> getCamelEndpoints() {
 		return camelCtx.getEndpoints();
 	}
@@ -70,6 +81,11 @@ public class CamelManager {
 
 	public CamelContext getCamelContext() {
 		return camelCtx;
+	}
+
+
+	public void startRoute(Route r) throws Exception {
+		camelCtx.startRoute(r.getRouteId());
 	}
 
 }

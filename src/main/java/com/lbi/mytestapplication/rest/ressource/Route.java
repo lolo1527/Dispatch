@@ -11,6 +11,7 @@ public class Route {
 	private EndPoint source;
 	private EndPoint destination;
 	private Status status;
+	private String routeId;
 	
 	/**
 	 * @return the id
@@ -59,6 +60,18 @@ public class Route {
 	 */
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	/**
+	 * @return the routeId
+	 */
+	public String getRouteId() {
+		return routeId;
+	}
+	/**
+	 * @param routeId the routeId to set
+	 */
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
 	}
 
 

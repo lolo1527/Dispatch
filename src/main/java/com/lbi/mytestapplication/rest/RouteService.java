@@ -10,7 +10,9 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -34,6 +36,27 @@ public class RouteService {
         	resources.add(EntityMapper.mapDomainEntityToRestResource(r));
         }
         return resources;
+    }
+    
+    
+    @Path("{id}")
+    @GET
+    public Response getRoute(@PathParam("id") int id,  @QueryParam("action") String action) {
+    	Response.ResponseBuilder builder = null;
+        Route route = routeMgr.getRouteById(id);
+        if(action != null){
+        	try {
+				route = routeMgr.performAction(route, action);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				builder = Response.status(Response.Status.BAD_REQUEST).entity(route);
+			}
+        }
+        com.lbi.mytestapplication.rest.ressource.Route routeRsc = 
+        		EntityMapper.mapDomainEntityToRestResource(route);
+        builder = Response.ok().entity(route);
+        return builder.build();
     }
     
 
