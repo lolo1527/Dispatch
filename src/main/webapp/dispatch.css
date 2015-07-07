@@ -39,6 +39,15 @@ button .glyphicon-plus,
     margin: 0 4px 0 0;
 }
 
+
+.btn-selected {
+  color: #fff;
+  background-color: #285e8e;
+  /* background-color: #3071a9;
+   border-color: #285e8e;*/
+  border-color: red;
+}
+
 h2 .glyphicon,
 h3 .glyphicon {
     margin: 0 10px 0 0;

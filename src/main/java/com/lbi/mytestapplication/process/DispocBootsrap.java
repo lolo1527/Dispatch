@@ -11,8 +11,9 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 
 import com.lbi.mytestapplication.common.Status;
-import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.domain.entity.Route;
+import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
+import com.lbi.mytestapplication.process.endpoint.EndPointMapper;
 
 @Singleton
 @Startup
@@ -49,19 +50,19 @@ public class DispocBootsrap {
     
 	public void initDB(){
 		// create EP
-		EndPoint ep = new EndPoint();
+		EndPointDTO ep = new EndPointDTO();
 		ep.setApplication("JCDStream");
 		ep.setUrl("seda://JCDStream");
 		epMgr.createEndPoint(ep);
 		// create EP2
-		EndPoint ep2 = new EndPoint();
+		EndPointDTO ep2 = new EndPointDTO();
 		ep2.setApplication("OpenLayer");
 		ep2.setUrl("seda://OpenLayer");
 		epMgr.createEndPoint(ep2);
 		// create route
 		Route r = new Route();
-		r.setDestination(ep2);
-		r.setSource(ep);
+		r.setDestination(EndPointMapper.mapProcessToDomainEntity(ep2));
+		r.setSource(EndPointMapper.mapProcessToDomainEntity(ep));
 		r.setStatus(Status.STOPPED);
 		String id = r.getSource().getUrl()+ r.getDestination().getUrl();
 		r.setRouteId(String.valueOf(id.hashCode()));

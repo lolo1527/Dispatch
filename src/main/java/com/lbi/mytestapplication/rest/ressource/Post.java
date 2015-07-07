@@ -7,7 +7,7 @@ public class Post {
 
 	private long id;
 	
-	private EndPoint endpoint;
+	private String queue;
 	private String message;
 	/**
 	 * @return the id
@@ -22,18 +22,6 @@ public class Post {
 		this.id = id;
 	}
 	/**
-	 * @return the endpoint
-	 */
-	public EndPoint getEndpoint() {
-		return endpoint;
-	}
-	/**
-	 * @param endpoint the endpoint to set
-	 */
-	public void setEndpoint(EndPoint endpoint) {
-		this.endpoint = endpoint;
-	}
-	/**
 	 * @return the message
 	 */
 	public String getMessage() {
@@ -44,6 +32,18 @@ public class Post {
 	 */
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	/**
+	 * @return the queue
+	 */
+	public String getQueue() {
+		return queue;
+	}
+	/**
+	 * @param queue the queue to set
+	 */
+	public void setQueue(String queue) {
+		this.queue = queue;
 	}
 
 }

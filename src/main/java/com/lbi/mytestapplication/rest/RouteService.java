@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -22,6 +24,8 @@ import com.lbi.mytestapplication.process.RouteManager;
 
 @Path("/route")
 public class RouteService {
+
+	Logger logger = Logger.getLogger(RouteService.class.getName());
 
 	@Inject
 	RouteManager routeMgr;
@@ -48,8 +52,7 @@ public class RouteService {
         	try {
 				route = routeMgr.performAction(route, action);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				builder = Response.status(Response.Status.BAD_REQUEST).entity(route);
 			}
         }
@@ -77,6 +80,7 @@ public class RouteService {
             builder = Response.ok().entity(route);
         } catch (Exception e) {
             // Handle generic exceptions
+			logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
             Map<String, String> responseObj = new HashMap<String, String>();
             responseObj.put("error", e.getMessage());
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);

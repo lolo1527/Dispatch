@@ -1,5 +1,6 @@
 package com.lbi.mytestapplication.process;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,6 +14,8 @@ import org.apache.camel.component.seda.SedaEndpoint;
 
 import com.lbi.mytestapplication.domain.EndPointDAO;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
+import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
+import com.lbi.mytestapplication.process.endpoint.EndPointMapper;
 
 public class EndPointManager {
 	
@@ -28,11 +31,12 @@ public class EndPointManager {
 	CamelManager camelMgr;
 
 
-	public void createEndPoint(EndPoint ep){
+	public void createEndPoint(EndPointDTO epDto){
 		try {
 			utx.begin();
+			EndPoint ep = EndPointMapper.mapProcessToDomainEntity(epDto);
 			dao.createEndPoint(ep);
-			addCamelEndpoint(ep.getUrl());
+			addCamelEndpoints(ep.getUrl());
 			utx.commit();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(),e);
@@ -44,8 +48,8 @@ public class EndPointManager {
 		}
 	}
 
-	public Endpoint addCamelEndpoint(String url){
-		return camelMgr.addSEDAEndpoint(url);
+	public List<Endpoint> addCamelEndpoints(String url){
+		return camelMgr.addSEDAEndpoints(url);
 	}
 	
 	
@@ -54,16 +58,22 @@ public class EndPointManager {
 		for (Endpoint ep : eps){
 			if(ep instanceof SedaEndpoint) {
 				SedaEndpoint seda = (SedaEndpoint) ep;
-				logger.info("Camel Endpoint : " + ep + "- message(s) in queue : " + seda.getExchanges().size());
+				logger.fine("Camel Endpoint : " + ep + "- message(s) in queue : " + seda.getExchanges().size());
 			}
-			//camelMgr.getCamelEndpoint(ep.getEndpointKey());
 		}
 		return eps;
 	}
 
-	public List<EndPoint> getAllEndPoints() {
-		getCamelEndpoints();		
-		return dao.getAllEndPoints();
+	public List<EndPointDTO> getAllEndPoints() {
+		List<EndPointDTO> dtos = new ArrayList<EndPointDTO>();
+		List<EndPoint> eps = dao.getAllEndPoints();
+		for(EndPoint ep : eps){
+			Endpoint epc = camelMgr.getCamelConsumeEndpoint(ep.getUrl());
+			Endpoint epp = camelMgr.getCamelProduceEndpoint(ep.getUrl());
+			EndPointDTO epDto = EndPointMapper.mapDomainEntityToRestResource(ep, epc, epp);
+			dtos.add(epDto);
+		}
+		return dtos;
 	}
 
 }

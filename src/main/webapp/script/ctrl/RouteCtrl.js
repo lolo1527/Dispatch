@@ -1,14 +1,10 @@
 angular.module('dispatch').controller('RouteCtrl', ['$scope', '$log', '$modal', 'EndpointService', 'RouteService', function ($scope, $log, $modal, EndpointService, RouteService) {
   
-  $log.info('Before service call...');
   $log.info('service url = ' + RouteService);
   $scope.routes = RouteService.query();  
   $log.info('After service call - routes.length :', $scope.routes.length );
   
-  //$scope.new_endpoint = {'id': null, 'application': '', 'url': ''};        
   var route = new RouteService();
-  //newCard.name = "Mike Smith";
-  //newCard.$save();
   
   $scope.create = function () {
     var modalInstance = $modal.open({
@@ -20,17 +16,37 @@ angular.module('dispatch').controller('RouteCtrl', ['$scope', '$log', '$modal', 
         }
       }
     });
-                   
+
     modalInstance.result.then(
       function (route) {
         route.$save;
         $scope.routes.push(route);
-        //reset();
-        //feed();
       },
       function (log) {}
     );
   };
+  
+  $scope.startRoute = function (r) {
+	  $log.info('starting route : ' + r.id);
+	  var route = new RouteService();
+	  route.$get({id:r.id, action:'start'});
+	  r.status='STARTED';
+  };
+
+  $scope.pauseRoute = function (r) {
+	  $log.info('pausing route : ' + r.id);
+	  var route = new RouteService();
+	  route.$get({id:r.id, action:'pause'});
+	  r.status='PAUSED';
+  };
+
+  $scope.stopRoute = function (r) {
+	  $log.info('stopping route :' + r.id);
+	  var route = new RouteService();
+	  route.$get({id:r.id, action:'stop'});
+	  r.status='STOPPED';
+  };
+
 }])
         
     .controller('routeEditModalController', [

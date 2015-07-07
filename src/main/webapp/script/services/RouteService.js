@@ -3,7 +3,7 @@
 angular.module('dispatch')
 
     .factory('RouteService', ['$resource', function ($resource) {
-        	var RouteService = $resource('/mytestapplication/service/route',{},{
+        	var RouteService = $resource('/mytestapplication/service/route/:id', {}, {
         		query: {
         			method: 'GET', 
         			isArray: true,
@@ -23,6 +23,12 @@ angular.module('dispatch')
         		},
                 create: {
                     method: 'POST'
+                },
+                startRoute:{
+        			method: 'GET',
+        			id:'@id',
+        			params:{action:"start"}
+                	
                 }
         	});
         	return RouteService;

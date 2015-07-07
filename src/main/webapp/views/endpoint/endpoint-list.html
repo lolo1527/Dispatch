@@ -2,10 +2,10 @@
 
 
 <button class="btn btn-primary ol-btn-create" ng-click="create()">
-    <span class="glyphicon glyphicon-plus"></span>Create an endpoint
+    <span class="glyphicon glyphicon-plus"></span>New endpoint
 </button>
 
-<p ng-show="endpoints.length > 0">{{results.length}} endpoint{{results.length > 1 ? "s" : ""}}</p>
+<p ng-show="endpoints.length > 0">{{endpoints.length}} endpoint{{endpoints.length > 1 ? "s" : ""}}</p>
 <p ng-show="endpoints.length == 0">No endpoint</p>
 
 <!--table class="table table-striped table-hover environment-list" ng-show="enpoints.length > 0"-->
@@ -13,9 +13,12 @@
     <thead>
         <tr>
             <th></th>
-            <th>id</th>
-            <th>application</th>
-            <th>url</th>
+            <!--  th>id</th-->
+            <th>Application</th>
+            <th>Consume Queue</th>
+            <th>count()</th>
+            <th>Produce Queue</th>
+            <th>count()</th>
             <th></th>
         </tr>
     </thead>
@@ -28,9 +31,12 @@
                     ng-click="select(endpoint.id)"
         		></span>
             </td>
-            <td>{{endpoint.id}}</td>
+            <!-- td>{{endpoint.id}}</td-->
             <td>{{endpoint.application}}</td>
-            <td>{{endpoint.url}}</td>
+            <td>{{endpoint.consumeQueue}}</td>
+            <td>{{endpoint.cqSize}}</td>
+            <td>{{endpoint.produceQueue}}</td>
+            <td>{{endpoint.pqSize}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="modify(environment)">
                     <span class="glyphicon glyphicon-pencil"></span>

@@ -1,6 +1,8 @@
 package com.lbi.mytestapplication.process;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,6 +15,7 @@ import org.apache.camel.cdi.CdiCamelContext;
 import org.apache.camel.component.seda.SedaEndpoint;
 import org.apache.camel.model.RouteDefinition;
 
+import com.lbi.mytestapplication.common.Constant;
 import com.lbi.mytestapplication.domain.entity.Route;
 
 public class CamelManager {
@@ -22,10 +25,6 @@ public class CamelManager {
     @Inject
     CdiCamelContext camelCtx;
     
-    //@Inject
-    //RouteBuilder myRouteBuilder;
-
-//    @PostConstruct
     public void init() throws Exception {
             logger.info(">> Create CamelContext");
             // Start Camel Context
@@ -34,21 +33,25 @@ public class CamelManager {
     }
 
 	
- //   @PreDestroy
     public void stop() throws Exception {
        camelCtx.stop();
     }
     
-    public Endpoint addSEDAEndpoint(String url){
-    	SedaEndpoint se = camelCtx.getEndpoint(url, SedaEndpoint.class);
+    public List<Endpoint> addSEDAEndpoints(String url){
+    	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
+    	SedaEndpoint produceQueue = camelCtx.getEndpoint(url + Constant.PRODUCE, SedaEndpoint.class);
         logger.info(">> Endpoint : " + url + " added to context.");
-        return se;
+        endpoints.add(produceQueue);
+    	SedaEndpoint consumeQueue = camelCtx.getEndpoint(url + Constant.CONSUME, SedaEndpoint.class);
+        logger.info(">> Endpoint : " + url + " added to context.");
+        endpoints.add(consumeQueue);
+        return endpoints;
     }
 
 	public void addRoute(Route r) throws Exception {
         // Add Camel Route
-		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl());
-		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl());
+		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl() + Constant.PRODUCE);
+		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl() + Constant.CONSUME);
 		final String routeId = r.getRouteId();
         RouteBuilder builder = new RouteBuilder() {
             public void configure() {
@@ -72,13 +75,18 @@ public class CamelManager {
 
 	public Endpoint getCamelEndpoint(String url) {
 		Map<String, Endpoint> map = camelCtx.getEndpointMap();
-		for(String s : map.keySet()){
-			logger.info("Map element : Key = " + s + " - value = " + map.get(s));
-		}
 		return (Endpoint)map.get(url);
 	}
 
+	public Endpoint getCamelProduceEndpoint(String url) {
+		return getCamelEndpoint(url + Constant.PRODUCE);
+	}
 
+	public Endpoint getCamelConsumeEndpoint(String url) {
+		return getCamelEndpoint(url + Constant.CONSUME);
+	}
+
+	
 	public CamelContext getCamelContext() {
 		return camelCtx;
 	}
@@ -86,6 +94,16 @@ public class CamelManager {
 
 	public void startRoute(Route r) throws Exception {
 		camelCtx.startRoute(r.getRouteId());
+	}
+
+
+	public void stopRoute(Route r) throws Exception {
+		camelCtx.stopRoute(r.getRouteId());
+	}
+
+
+	public void pauseRoute(Route r) throws Exception {
+		camelCtx.suspendRoute(r.getRouteId());
 	}
 
 }

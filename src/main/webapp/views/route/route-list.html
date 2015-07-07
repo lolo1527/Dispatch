@@ -45,13 +45,14 @@
             <td>{{route.destination.application}}</td>
             <td>{{route.destination.url}}</td>
             <td>
-                <button class="btn btn-primary" ng-click="start(route)">
+                <!-- button class="btn btn-primary" ng-click="startRoute(route)"  -->
+                <button ng-class="route.status=='STARTED'?'btn btn-selected':'btn btn-primary'" ng-click="startRoute(route)">
                     <span class="glyphicon glyphicon-play"></span>
                 </button>
-                <button class="btn btn-primary" ng-click="pause(route)">
+                <button ng-class="route.status=='PAUSED'?'btn btn-selected':'btn btn-primary'" ng-click="pauseRoute(route)">
                     <span class="glyphicon glyphicon-pause"></span>
                 </button>
-                <button class="btn btn-primary" ng-click="stop(route)">
+                <button ng-class="route.status=='STOPPED'?'btn btn-selected':'btn btn-primary'" ng-click="stopRoute(route)">
                     <span class="glyphicon glyphicon-stop"></span>
                 </button>
             </td>

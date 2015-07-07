@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import com.lbi.mytestapplication.common.EntityMapper;
 import com.lbi.mytestapplication.domain.entity.Post;
 import com.lbi.mytestapplication.process.PostManager;
+import com.lbi.mytestapplication.process.post.PostProducer;
 
 @Path("/post")
 public class PostService {
@@ -27,6 +28,9 @@ public class PostService {
 
 	@Inject
 	PostManager postMgr;
+	
+	@Inject
+	PostProducer producer;
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,7 +58,7 @@ public class PostService {
         logger.info("create endpoint : " + post);
         try {
         	Post postEntity = EntityMapper.mapRestResourceToDomainEntity(post);
-            postMgr.postMessage(postEntity.getEndpoint(), postEntity.getMessage());
+        	producer.postMessage(postEntity.getQueue(), postEntity.getMessage());
             // Create an "ok" response
             builder = Response.ok().entity(post);
         } catch (Exception e) {

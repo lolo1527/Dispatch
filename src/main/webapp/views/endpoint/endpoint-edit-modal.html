@@ -23,7 +23,7 @@
                         type="number"
                         min="0"
                         class="form-control"
-                        name="envId"
+                        name="id"
                         placeholder="Identifier"
                         required
                         ng-model="endpoint.id"
@@ -52,10 +52,38 @@
                         type="text"
                         maxlength="20"
                         class="form-control"
-                        name="bsName"
+                        name="url"
                         placeholder="20 characters max"
                         required
                         ng-model="endpoint.url"
+                    >
+                </div>
+            </field>
+            <field class="form-group" ng-class="{'has-error': !endpointCreate.url.$valid}">
+                <label class="col-sm-3 control-label">consume queue</label>
+                <div class="col-sm-9">
+                    <input
+                        type="text"
+                        maxlength="20"
+                        class="form-control"
+                        name="consume"
+                        placeholder="20 characters max"
+                        ng-model="endpoint.consumeQueue"
+                        ng-disabled="true"
+                    >
+                </div>
+            </field>
+            <field class="form-group" ng-class="{'has-error': !endpointCreate.url.$valid}">
+                <label class="col-sm-3 control-label">Produce queue</label>
+                <div class="col-sm-9">
+                    <input
+                        type="text"
+                        maxlength="20"
+                        class="form-control"
+                        name="produce"
+                        placeholder="20 characters max"
+                        ng-model="endpoint.produceQueue"
+                        ng-disabled="true"
                     >
                 </div>
             </field>

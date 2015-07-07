@@ -1,10 +1,7 @@
-package com.lbi.mytestapplication.rest.ressource;
+package com.lbi.mytestapplication.process.endpoint;
 
-import javax.xml.bind.annotation.XmlRootElement;
+public class EndPointDTO {
 
-@XmlRootElement
-public class EndPoint {
-	
 	private long id;
 	private String application;
 	private String url;
@@ -12,7 +9,7 @@ public class EndPoint {
 	private String consumeQueue;
 	private int pqSize;
 	private int cqSize;
-
+	
 	/**
 	 * @return the id
 	 */
@@ -48,10 +45,6 @@ public class EndPoint {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String toString(){
-		return "app:" + application + "/url:" + url;
 	}
 	/**
 	 * @return the produceQueue

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
+import com.lbi.mytestapplication.common.Status;
 import com.lbi.mytestapplication.domain.RouteDAO;
 import com.lbi.mytestapplication.domain.entity.Route;
 
@@ -67,22 +68,37 @@ public class RouteManager {
 		return r;
 	}
 
-	private void pauseRoute(Route r) {
+	private void pauseRoute(Route r) throws Exception {
 		logger.info("pausing route : " + r);
-		// TODO Auto-generated method stub
-		
+		camelMgr.pauseRoute(r);
+		setRouteStatus(r, Status.PAUSED);
 	}
 
-	private void stopRoute(Route r) {
+	private void stopRoute(Route r) throws Exception {
 		logger.info("stopping route : " + r);
-		// TODO Auto-generated method stub
-		
+		camelMgr.stopRoute(r);
+		setRouteStatus(r, Status.STOPPED);
 	}
 
 	private void startRoute(Route r) throws Exception {
 		logger.info("starting route : " + r);
 		camelMgr.startRoute(r);
-		// TODO update status to started
+		setRouteStatus(r, Status.STARTED);
+	}
+
+	private void setRouteStatus(Route r, Status status) {
+		try {
+			utx.begin();
+			routeDao.setRouteStatus(r, status);
+			utx.commit();
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(),e);
+			try {
+				utx.rollback();
+			} catch (Exception e1) {
+				logger.log(Level.SEVERE, e.getMessage(),e);
+			}
+		}
 	}
 
 }

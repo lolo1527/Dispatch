@@ -4,6 +4,7 @@ import com.lbi.mytestapplication.domain.entity.Connector;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.domain.entity.Post;
 import com.lbi.mytestapplication.domain.entity.Route;
+import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
 
 public class EntityMapper {
 
@@ -60,7 +61,7 @@ public class EntityMapper {
 	public static com.lbi.mytestapplication.rest.ressource.Post mapDomainEntityToRestResource(Post post) {
 		com.lbi.mytestapplication.rest.ressource.Post postRsc = new com.lbi.mytestapplication.rest.ressource.Post();
 		postRsc.setMessage(post.getMessage());
-		postRsc.setEndpoint(mapDomainEntityToRestResource(post.getEndpoint()));
+		postRsc.setQueue((post.getQueue()));
 		postRsc.setId(post.getId());
 		return postRsc;
 	}
@@ -68,7 +69,7 @@ public class EntityMapper {
 
 	public static Post mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Post postRsc) {
 		Post post = new Post();
-		post.setEndpoint(mapRestResourceToDomainEntity(postRsc.getEndpoint()));
+		post.setQueue(postRsc.getQueue());
 		post.setMessage(postRsc.getMessage());
 		post.setId(postRsc.getId());
 		return post;
@@ -77,9 +78,12 @@ public class EntityMapper {
 
 	public static Connector mapRestResourceToDomainEntity(com.lbi.mytestapplication.rest.ressource.Connector connector) {
 		Connector connect = new Connector();
-		connect.setEndpoint(mapRestResourceToDomainEntity(connector.getEndpoint()));
 		connect.setName(connector.getName());
 		connect.setId(connector.getId());
+		connect.setConsumeQueue(connector.getConsumeQueue());
+		connect.setProduceQueue(connector.getProduceQueue());
+		connect.setStatus(Status.STARTED);
+		connect.setEndPoint(connector.getEndPoint());
 		return connect;
 	}
 
@@ -87,9 +91,38 @@ public class EntityMapper {
 	public static com.lbi.mytestapplication.rest.ressource.Connector mapDomainEntityToRestResource(Connector c) {
 		com.lbi.mytestapplication.rest.ressource.Connector connectRsc = new com.lbi.mytestapplication.rest.ressource.Connector();
 		connectRsc.setName(c.getName());
-		connectRsc.setEndpoint(mapDomainEntityToRestResource(c.getEndpoint()));
 		connectRsc.setId(c.getId());
+		connectRsc.setConsumeQueue(c.getConsumeQueue());
+		connectRsc.setProduceQueue(c.getProduceQueue());
+		connectRsc.setStatus(c.getStatus());
+		connectRsc.setEndPoint(c.getEndPoint());
 		return connectRsc;
+	}
+
+
+	public static com.lbi.mytestapplication.rest.ressource.EndPoint mapDtoToRestResource(EndPointDTO epDto) {
+		com.lbi.mytestapplication.rest.ressource.EndPoint ep = new com.lbi.mytestapplication.rest.ressource.EndPoint();
+		ep.setId(epDto.getId());
+		ep.setApplication(epDto.getApplication());
+		ep.setUrl(epDto.getUrl());
+		ep.setConsumeQueue(epDto.getUrl()+ Constant.CONSUME);
+		ep.setProduceQueue(epDto.getUrl()+ Constant.PRODUCE);
+		ep.setCqSize(epDto.getCqSize());
+		ep.setPqSize(epDto.getPqSize());
+	    return ep;
+	}
+
+
+	public static EndPointDTO mapRestResourceToDto(com.lbi.mytestapplication.rest.ressource.EndPoint endpoint) {
+		EndPointDTO ep = new EndPointDTO();
+		ep.setId(endpoint.getId());
+		ep.setApplication(endpoint.getApplication());
+		ep.setUrl(endpoint.getUrl());
+		ep.setConsumeQueue(endpoint.getUrl()+ Constant.CONSUME);
+		ep.setProduceQueue(endpoint.getUrl()+ Constant.PRODUCE);
+		//ep.setCqSize(epDto.getCqSize());
+		//ep.setPqSize(epDto.getPqSize());
+	    return ep;
 	}
 
 }

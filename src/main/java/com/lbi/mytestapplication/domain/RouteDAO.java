@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.lbi.mytestapplication.common.Status;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.domain.entity.Route;
 
@@ -38,9 +39,16 @@ public class RouteDAO {
 	}
 
 
-	public Route getRouteById(int id) {
+	public Route getRouteById(long id) {
 		Query query = em.createQuery("SELECT r FROM Route r where r.id = " + id);
 	    return ((List<Route>) query.getResultList()).get(0);
+	}
+
+
+	public void setRouteStatus(Route r, Status status) {
+		Route route = getRouteById(r.getId());
+		route.setStatus(status);
+        em.persist(route);
 	}
 
 

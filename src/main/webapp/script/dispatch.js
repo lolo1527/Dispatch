@@ -53,6 +53,10 @@ angular.module('dispatch', ['ngRoute','ngResource','dispatch.version','ui.bootst
                     templateUrl: 'views/route/route-list.html',
                     controller: 'RouteCtrl'
                 })
+                .when('/connector', {
+                    templateUrl: 'views/connector/connector-list.html',
+                    controller: 'ConnectorCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

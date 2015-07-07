@@ -16,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.lbi.mytestapplication.common.EntityMapper;
-import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.process.EndPointManager;
+import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
 
 @Path("/endpoint")
 public class EndPointService {
@@ -31,11 +31,11 @@ public class EndPointService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<com.lbi.mytestapplication.rest.ressource.EndPoint> getAllEndPoints() {
-        List<EndPoint> entities =  epMgr.getAllEndPoints();
+        List<EndPointDTO> dtos =  epMgr.getAllEndPoints();
         List<com.lbi.mytestapplication.rest.ressource.EndPoint> resources = 
         		new ArrayList<com.lbi.mytestapplication.rest.ressource.EndPoint>();
-        for(EndPoint ep : entities){
-        	resources.add(EntityMapper.mapDomainEntityToRestResource(ep));
+        for(EndPointDTO epDto : dtos){
+        	resources.add(EntityMapper.mapDtoToRestResource(epDto));
         }
         logger.info("endpoints.size = " + resources.size());
         return resources;
@@ -53,7 +53,7 @@ public class EndPointService {
         Response.ResponseBuilder builder = null;
         logger.info("create endpoint : " + endpoint);
         try {
-        	EndPoint ep = EntityMapper.mapRestResourceToDomainEntity(endpoint);
+        	EndPointDTO ep = EntityMapper.mapRestResourceToDto(endpoint);
             epMgr.createEndPoint(ep);
             // Create an "ok" response
             builder = Response.ok().entity(endpoint);

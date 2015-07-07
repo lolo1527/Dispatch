@@ -26,6 +26,7 @@ angular.module('dispatch').controller('EndpointCtrl', ['$scope', '$log', '$modal
       function (endpoint) {
         endpoint.$save;
         $scope.endpoints.push(endpoint);
+        $scope.endpoints = EndpointService.query(); 
         //reset();
         //feed();
       },
@@ -46,6 +47,8 @@ angular.module('dispatch').controller('EndpointCtrl', ['$scope', '$log', '$modal
             $scope['new'] = endpoint.id === null;          
             $scope.endpoint.application = null;
             $scope.endpoint.url = null;
+            $scope.endpoint.consumeQueue = $scope.endpoint.url + "/consume";
+            $scope.endpoint.produceQueue = $scope.endpoint.url + "/produce";
             
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');

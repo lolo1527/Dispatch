@@ -6,19 +6,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.lbi.mytestapplication.domain.entity.Post;
+import com.lbi.mytestapplication.domain.entity.Connector;
 
-public class PostDAO {
+public class ConnectorDAO {
 	
     @PersistenceContext(name="primary")
     EntityManager em;
 
 	
-	public void createPost(Post p) {
-		//EndPoint ep = getEndpointByName(p.getEndpoint().getApplication());
-		p.setQueue(p.getQueue());
-		p.setMessage(p.getMessage());
-        em.persist(p);
+	public void createConnector(Connector c) {
+        em.persist(c);
 	}
 
 
@@ -30,9 +27,9 @@ public class PostDAO {
 
 
 	@SuppressWarnings("unchecked")
-	public List<Post> getAllPosts() {
-		Query query = em.createQuery("SELECT p FROM Post p");
-	    return (List<Post>) query.getResultList();
+	public List<Connector> getAllConnectors() {
+		Query query = em.createQuery("SELECT c FROM Connector c");
+	    return (List<Connector>) query.getResultList();
 	}
 
 
