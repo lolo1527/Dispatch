@@ -1,0 +1,71 @@
+<h2><span class="glyphicon glyphicon-resize-full"></span>Connectors</h2>
+
+
+<button class="btn btn-primary ol-btn-create" ng-click="create()">
+    <span class="glyphicon glyphicon-plus"></span>new connector</button>
+
+<p ng-show="connectors.length > 0">{{connectors.length}} Connector{{connectors.length > 1 ? "s" : ""}}</p>
+<p ng-show="connectors.length == 0">No Connector</p>
+
+
+<!--table class="table table-striped table-hover environment-list" ng-show="enpoints.length > 0"-->
+<table class="table table-striped table-hover environment-list">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Application</th>
+            <th>consume from</th>
+            <th>produce to</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    	<!--tr ng-repeat="environment in environments | orderBy:orderBy | olFilterEnvironment:this:needle:timezone:state:enabled | olRange:this" ng-class="{new: environment.new, success: !environment.new && environment.enabled && environment.envId != global.environment.envId, info: !environment.new && environment.envId == global.environment.envId}"-->
+    	<tr ng-repeat="connector in connectors">
+            <td width="30px">
+                <span
+        			class="glyphicon map-marker"
+        			ng-class="{'glyphicon-map-marker':true}"
+                    ng-click="select(route.source)">
+                </span>
+            </td>
+            <td>{{connector.name}}</td>
+            <td>{{connector.endPoint}}</td>
+            <td>{{connector.consumeQueue}}</td>
+			<td>{{connector.produceQueue}}</td>
+			<td>{{connector.status}}</td>
+            <td>
+                <button ng-class="connector.status=='STARTED'?'btn btn-selected':'btn btn-primary'" ng-click="start(connector)">
+                    <span class="glyphicon glyphicon-play"></span>
+                </button>
+                <button ng-class="connector.status=='PAUSED'?'btn btn-selected':'btn btn-primary'" ng-click="pause(connector)">
+                    <span class="glyphicon glyphicon-pause"></span>
+                </button>
+                <button ng-class="connector.status=='STOPPED'?'btn btn-selected':'btn btn-primary'" ng-click="stop(connector)">
+                    <span class="glyphicon glyphicon-stop"></span>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-primary" ng-click="modify(connector)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-primary" ng-click="prepareMessage(connector)">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </button>
+            </td>
+    	</tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="12">
+                <ol-pagination></ol-pagination>
+            </td>
+        </tr>
+    </tfoot>
+</table>

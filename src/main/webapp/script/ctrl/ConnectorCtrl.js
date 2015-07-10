@@ -1,14 +1,9 @@
 angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$modal', 'EndpointService', 'ConnectorService', function ($scope, $log, $modal, EndpointService, ConnectorService) {
   
-  $log.info('Before service call...');
-  $log.info('service url = ' + ConnectorService);
   $scope.connectors = ConnectorService.query();  
-  $log.info('After service call - connectors.length :', $scope.connectors.length );
   
-  //$scope.new_endpoint = {'id': null, 'application': '', 'url': ''};        
   var connector = new ConnectorService();
-  //newCard.name = "Mike Smith";
-  //newCard.$save();
+  $log.info('service url = ' + ConnectorService.$url);
   
   $scope.create = function () {
     var modalInstance = $modal.open({
@@ -31,6 +26,29 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
       function (log) {}
     );
   };
+
+  $scope.prepareMessage = function (c) {
+	    var modalInstance = $modal.open({
+	      templateUrl: 'views/connector/connector-post-modal.html',
+	      controller: 'connectorPostModalController',
+	      resolve: {
+	    	  connector: function () {
+	           return c;
+	        }
+	      }
+	    });
+	                   
+	    modalInstance.result.then(
+	      function (connector) {
+	    	//connector.$save;
+	        //$scope.connectors.push(connector);
+	        //reset();
+	        //feed();
+	      },
+	      function (log) {}
+	    );
+	  };
+
 }])
         
     .controller('connectorEditModalController', [
@@ -51,9 +69,6 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
             $scope.connector.produceQueue=""; 
             $scope.connector.status = "STARTED";
             
-            /*$scope.setSource = function() {
-                $scope.route.source = $scope.timezone.region + '/' + $scope.timezone.city[$scope.timezone.region];
-            };*/
             $scope.setEndPoint = function () {
             	$log.info('Log...$scope.connector.endPoint = ' + $scope.connector.endPoint);
             	$scope.connector.consumeQueue="seda://" + $scope.connector.endPoint + "/consume";
@@ -81,6 +96,46 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
                         $scope.loading = false;
                     }
                 );
+            };
+
+        }
+    ])
+    
+        .controller('connectorPostModalController', [
+        '$rootScope',
+        '$scope',
+        '$filter',
+        '$log',
+        '$modalInstance',
+        'PostService',
+        'connector',
+        function ($rootScope, $scope, $filter, $log, $modalInstance, PostService, connector) {
+            $scope.connector = connector;
+            $scope.post = new PostService();
+            $scope.post.message='write your message here';
+            $scope.post.queue=connector.produceQueue;
+            
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+            
+            $scope.log = function () {
+           	  	$log.info('Log...$connector.endPoint = ' + $scope.connector.endPoint);
+           	  	$log.info('Log...$scope.message = ' + $scope.post.message);
+            };
+
+            $scope.postMessage = function () {
+                $modalInstance.close(connector);
+            	$scope.post.$save();
+                /*$scope.postconnector.$save(
+                    function (connector, postResponseHeaders) {
+                        $modalInstance.close(connector);
+                    },
+                    function (error) {
+                        $scope.notifs = Notifs.set(error);
+                        $scope.loading = false;
+                    }
+                );*/
             };
 
         }
