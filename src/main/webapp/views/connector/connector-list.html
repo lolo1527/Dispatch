@@ -17,7 +17,7 @@
             <th>Application</th>
             <th>consume from</th>
             <th>produce to</th>
-            <th>Status</th>
+            <!-- th>Status</th-->
             <th></th>
             <th></th>
             <th></th>
@@ -37,7 +37,7 @@
             <td>{{connector.endPoint}}</td>
             <td>{{connector.consumeQueue}}</td>
 			<td>{{connector.produceQueue}}</td>
-			<td>{{connector.status}}</td>
+			<!-- td>{{connector.status}}</td -->
             <td>
                 <button ng-class="connector.status=='STARTED'?'btn btn-selected':'btn btn-primary'" ng-click="start(connector)">
                     <span class="glyphicon glyphicon-play"></span>
@@ -50,13 +50,16 @@
                 </button>
             </td>
             <td>
-                <button class="btn btn-primary" ng-click="modify(connector)">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                <button class="btn btn-primary" ng-click="prepareMessage(connector)">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </button>
+                <button class="btn btn-primary" ng-click="listMessages(connector)">
+                    <span class="glyphicon glyphicon-envelope"></span>
                 </button>
             </td>
             <td>
-                <button class="btn btn-primary" ng-click="prepareMessage(connector)">
-                    <span class="glyphicon glyphicon-comment"></span>
+                <button class="btn btn-primary" ng-click="modify(connector)">
+                    <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </td>
     	</tr>

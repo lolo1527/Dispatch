@@ -1,0 +1,51 @@
+<div class="modal-header environment-modal bg-new">
+	<h3 class="modal-title text-new">
+        <span ng-show="environment.enabled" class="glyphicon glyphicon-ok text-success"></span>
+        <span class="glyphicon glyphicon-envelope"></span>{{'Message list for connector : ' + connector.name}}
+    </h3>
+</div>
+
+<div class="modal-body">
+<table class="table table-striped table-hover environment-list">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Application</th>
+            <th>Queue</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<!--tr ng-repeat="environment in environments | orderBy:orderBy | olFilterEnvironment:this:needle:timezone:state:enabled | olRange:this" ng-class="{new: environment.new, success: !environment.new && environment.enabled && environment.envId != global.environment.envId, info: !environment.new && environment.envId == global.environment.envId}"-->
+    	<tr ng-repeat="post in posts">
+            <td width="30px">
+                <span
+        			class="glyphicon envelope"
+        			ng-class="{'glyphicon-envelope':true}"
+                    ng-click="select(route.source)">
+                </span>
+            </td>
+            <td>{{connector.endPoint}}</td>
+            <td>{{post.queue}}</td>
+            <td>{{post.message}}</td>
+    	</tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="12">
+                <ol-pagination></ol-pagination>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+</div>
+
+<div class="modal-footer">
+    <!--ol-notifs></ol-notifs>
+    <ol-progress></ol-progress-->
+    
+	<button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span>close</button>
+	<!-- button class="btn" ng-click="postMessage()" ng-class="{'btn-success': environmentCreate.$valid}" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>Post</button-->
+	<button class="btn" ng-click="log()" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>log</button>
+</div>

@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -32,10 +33,17 @@ public class PostService {
 	@Inject
 	PostProducer producer;
 	
+	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<com.lbi.mytestapplication.rest.ressource.Post> getAllPosts() {
-        List<Post> entities =  postMgr.getAllPosts();
+    public List<com.lbi.mytestapplication.rest.ressource.Post> getAllPosts(@QueryParam("application") String application) {
+    	List<Post> entities = null;
+        logger.info("Enter getAllPosts : application = " + application);
+    	if(application != null && !application.equalsIgnoreCase("")){
+    		entities =  postMgr.getPostsByApp(application);
+    	} else {
+            entities =  postMgr.getAllPosts();
+    	}
         List<com.lbi.mytestapplication.rest.ressource.Post> resources = 
         		new ArrayList<com.lbi.mytestapplication.rest.ressource.Post>();
         for(Post ep : entities){
@@ -45,7 +53,7 @@ public class PostService {
         return resources;
     }
     
-
+    
     /**
      * Creates a new post from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
      * or with a map of fields, and related errors.

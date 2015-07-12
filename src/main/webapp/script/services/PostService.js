@@ -20,12 +20,8 @@ angular.module('dispatch')
                             };
                         }
                     }
-        		},
-                create: {
-                    method: 'POST'
-                }
+        		}
         	});
         	return PostService;
-                    
         }
     ]);

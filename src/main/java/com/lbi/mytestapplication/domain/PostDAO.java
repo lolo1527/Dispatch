@@ -36,4 +36,10 @@ public class PostDAO {
 	}
 
 
+	public List<Post> getPostsByApp(String application) {
+		Query query = em.createQuery("SELECT p FROM Post p where p.queue like '%" + application + "%'");
+	    return (List<Post>) query.getResultList();
+	}
+
+
 }

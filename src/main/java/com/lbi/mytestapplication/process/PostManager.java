@@ -39,4 +39,8 @@ public class PostManager {
 		}
 
 	}
+
+	public List<Post> getPostsByApp(String application) {
+		return postDAO.getPostsByApp(application);
+	}
 }

@@ -49,6 +49,28 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
 	    );
 	  };
 
+	  $scope.listMessages = function (c) {
+		    var modalInstance = $modal.open({
+		      templateUrl: 'views/connector/connector-msg-modal.html',
+		      controller: 'connectorMsgModalController',
+		      resolve: {
+		    	  connector: function () {
+		           return c;
+		        }
+		      }
+		    });
+		                   
+		    modalInstance.result.then(
+		      function (connector) {
+		    	//connector.$save;
+		        //$scope.connectors.push(connector);
+		        //reset();
+		        //feed();
+		      },
+		      function (log) {}
+		    );
+		  };
+
 }])
         
     .controller('connectorEditModalController', [
@@ -101,7 +123,8 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
         }
     ])
     
-        .controller('connectorPostModalController', [
+
+    .controller('connectorPostModalController', [
         '$rootScope',
         '$scope',
         '$filter',
@@ -112,7 +135,6 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
         function ($rootScope, $scope, $filter, $log, $modalInstance, PostService, connector) {
             $scope.connector = connector;
             $scope.post = new PostService();
-            $scope.post.message='write your message here';
             $scope.post.queue=connector.produceQueue;
             
             $scope.cancel = function () {
@@ -127,15 +149,30 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
             $scope.postMessage = function () {
                 $modalInstance.close(connector);
             	$scope.post.$save();
-                /*$scope.postconnector.$save(
-                    function (connector, postResponseHeaders) {
-                        $modalInstance.close(connector);
-                    },
-                    function (error) {
-                        $scope.notifs = Notifs.set(error);
-                        $scope.loading = false;
-                    }
-                );*/
+            };
+
+        }
+    ])
+    
+    .controller('connectorMsgModalController', [
+        '$rootScope',
+        '$scope',
+        '$filter',
+        '$log',
+        '$modalInstance',
+        '$resource',
+        'PostService',
+        'connector',
+        function ($rootScope, $scope, $filter, $log, $modalInstance, $resource, PostService, connector) {
+            $scope.connector = connector;
+            $scope.posts = PostService.query({application:connector.endPoint});
+            
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+            
+            $scope.log = function () {
+           	  	$log.info('Log...$scope.posts.length = ' + $scope.posts.length);
             };
 
         }
