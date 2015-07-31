@@ -105,8 +105,8 @@ public class EntityMapper {
 		ep.setId(epDto.getId());
 		ep.setApplication(epDto.getApplication());
 		ep.setUrl(epDto.getUrl());
-		ep.setConsumeQueue(epDto.getUrl()+ Constant.CONSUME);
-		ep.setProduceQueue(epDto.getUrl()+ Constant.PRODUCE);
+		ep.setConsumeQueue(epDto.getConsumeQueue());
+		ep.setProduceQueue(epDto.getProduceQueue());
 		ep.setCqSize(epDto.getCqSize());
 		ep.setPqSize(epDto.getPqSize());
 	    return ep;
@@ -118,8 +118,8 @@ public class EntityMapper {
 		ep.setId(endpoint.getId());
 		ep.setApplication(endpoint.getApplication());
 		ep.setUrl(endpoint.getUrl());
-		ep.setConsumeQueue(endpoint.getUrl()+ Constant.CONSUME);
-		ep.setProduceQueue(endpoint.getUrl()+ Constant.PRODUCE);
+		ep.setConsumeQueue(endpoint.getConsumeQueue());
+		ep.setProduceQueue(endpoint.getProduceQueue());
 		//ep.setCqSize(epDto.getCqSize());
 		//ep.setPqSize(epDto.getPqSize());
 	    return ep;

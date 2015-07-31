@@ -8,10 +8,13 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.CdiCamelContext;
+import org.apache.camel.component.jms.JmsQueueEndpoint;
 import org.apache.camel.component.seda.SedaEndpoint;
 import org.apache.camel.model.RouteDefinition;
 
@@ -37,6 +40,32 @@ public class CamelManager {
        camelCtx.stop();
     }
     
+    
+    public void initActiveMQ(){
+    	//ActiveMQComponent amqc = new ActiveMQComponent(camelCtx);
+        logger.info(">> init ActiveMQ component");
+		camelCtx.addComponent("activemq", ActiveMQComponent.activeMQComponent("vm://localhost?broker.persistent=false"));
+    }
+    
+    
+    public List<Endpoint> addJMSEndpoints(String url) throws Exception{
+    	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
+    	//Endpoint produceQueue = camelCtx.getEndpoint(url + Constant.PRODUCE, JmsEndpoint.class);
+    	JmsQueueEndpoint produceQueue = new JmsQueueEndpoint(url + "." + Constant.PRODUCE, url);
+    	produceQueue.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false"));
+    	//JmsEndpoint produceQueue = new JmsEndpoint(url + Constant.PRODUCE, url, false);
+    	camelCtx.addEndpoint(url + "." + Constant.PRODUCE, produceQueue);
+        logger.info(">> Endpoint : " + url + "." + Constant.PRODUCE + " added to context.");
+        endpoints.add(produceQueue);
+    	//Endpoint consumeQueue = camelCtx.getEndpoint(url + Constant.CONSUME, JmsEndpoint.class);
+        JmsQueueEndpoint consumeQueue = new JmsQueueEndpoint(url + "." + Constant.CONSUME, url);
+    	consumeQueue.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false"));
+    	camelCtx.addEndpoint(url + "." + Constant.CONSUME, consumeQueue);
+        logger.info(">> Endpoint : " + url + "." + Constant.CONSUME + " added to context.");
+        endpoints.add(consumeQueue);
+        return endpoints;
+    }
+    
     public List<Endpoint> addSEDAEndpoints(String url){
     	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
     	SedaEndpoint produceQueue = camelCtx.getEndpoint(url + Constant.PRODUCE, SedaEndpoint.class);
@@ -50,8 +79,10 @@ public class CamelManager {
 
 	public void addRoute(Route r) throws Exception {
         // Add Camel Route
-		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl() + Constant.PRODUCE);
-		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl() + Constant.CONSUME);
+		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl() + "." + Constant.PRODUCE);
+		logger.info(">> sourceEp : " + sourceEp + " retrieved from context : " + r.getSource().getUrl() + Constant.PRODUCE);
+		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl() + "." + Constant.CONSUME);
+		logger.info(">> destinationEp : " + destinationEp + " retrieved from context : " + r.getDestination().getUrl() + Constant.CONSUME);
 		final String routeId = r.getRouteId();
         RouteBuilder builder = new RouteBuilder() {
             public void configure() {
@@ -74,16 +105,20 @@ public class CamelManager {
 	}
 
 	public Endpoint getCamelEndpoint(String url) {
+		logger.info("url : " + url);
 		Map<String, Endpoint> map = camelCtx.getEndpointMap();
+		for(String key : map.keySet()){
+			logger.info("key : " + key + " => ep : " + map.get(key));
+		}
 		return (Endpoint)map.get(url);
 	}
 
 	public Endpoint getCamelProduceEndpoint(String url) {
-		return getCamelEndpoint(url + Constant.PRODUCE);
+		return getCamelEndpoint(url + "." + Constant.PRODUCE);
 	}
 
 	public Endpoint getCamelConsumeEndpoint(String url) {
-		return getCamelEndpoint(url + Constant.CONSUME);
+		return getCamelEndpoint(url + "." + Constant.CONSUME);
 	}
 
 	

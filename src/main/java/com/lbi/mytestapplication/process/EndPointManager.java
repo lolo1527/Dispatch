@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import org.apache.camel.Endpoint;
+import org.apache.camel.component.jms.JmsEndpoint;
 import org.apache.camel.component.seda.SedaEndpoint;
 
 import com.lbi.mytestapplication.domain.EndPointDAO;
@@ -48,8 +49,14 @@ public class EndPointManager {
 		}
 	}
 
-	public List<Endpoint> addCamelEndpoints(String url){
-		return camelMgr.addSEDAEndpoints(url);
+	public List<Endpoint> addCamelEndpoints(String url) throws Exception{
+		List<Endpoint> endpoints = null;
+		if(url.startsWith("seda")){
+			endpoints = camelMgr.addSEDAEndpoints(url);
+		} else if(url.startsWith("activemq")){
+			endpoints = camelMgr.addJMSEndpoints(url);
+		}
+		return endpoints;
 	}
 	
 	
@@ -59,6 +66,10 @@ public class EndPointManager {
 			if(ep instanceof SedaEndpoint) {
 				SedaEndpoint seda = (SedaEndpoint) ep;
 				logger.fine("Camel Endpoint : " + ep + "- message(s) in queue : " + seda.getExchanges().size());
+			}
+			if(ep instanceof JmsEndpoint) {
+				JmsEndpoint seda = (JmsEndpoint) ep;
+				logger.fine("Camel Endpoint : " + ep + "- message(s) in queue : " + seda.getMaxConcurrentConsumers());
 			}
 		}
 		return eps;

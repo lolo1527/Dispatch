@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.apache.camel.Consumer;
 import org.apache.camel.Endpoint;
 import org.apache.camel.Processor;
 import org.apache.camel.component.seda.SedaConsumer;
@@ -14,7 +15,7 @@ import com.lbi.mytestapplication.process.CamelManager;
 public class PostConsumer {
 
 	Logger logger = Logger.getLogger(PostConsumer.class.getName());
-	SedaConsumer consumer =  null;
+	Consumer consumer =  null;
 
 	@Inject
 	CamelManager camelMgr;
@@ -32,7 +33,11 @@ public class PostConsumer {
 	public void createConsumer(String queue) throws Exception{
 		Endpoint ep = camelMgr.getCamelEndpoint(queue);
 		logger.info("endPoint = " + ep);
-		consumer =  new SedaConsumer((SedaEndpoint) ep, processor);
+		if(queue.startsWith("activemq")){
+			consumer =  ep.createConsumer(processor);
+		}else {
+			consumer =  new SedaConsumer((SedaEndpoint) ep, processor);
+		}
 		consumer.start();
 	}
 

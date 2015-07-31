@@ -26,7 +26,7 @@
                     >
                 </div>
             </field>
-            <field class="form-group required">
+            <!-- field class="form-group required">
                 <label class="col-sm-3 control-label">Application</label>
                 <div class="col-sm-9">
                     <select class="form-control" name="source_ep"
@@ -34,6 +34,18 @@
                         ng-change="setEndPoint()"
                         required>
                     	<option ng-repeat="endpoint in endpoints" value="{{endpoint.application}}">{{endpoint.application}}</option>
+                    </select>
+                </div>
+            </field-->
+            <field class="form-group required">
+                <label class="col-sm-3 control-label">Application</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="source_ep"
+                        ng-model="selected"
+                        ng-options="endpoint.application for endpoint in endpoints"
+                        ng-change="setEndPoint()"
+                        required>
+                    	<!-- option ng-repeat="endpoint in endpoints" value="{{endpoint}}">{{endpoint.application}}</option-->
                     </select>
                 </div>
             </field>

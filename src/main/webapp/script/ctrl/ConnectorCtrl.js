@@ -84,17 +84,21 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
         function ($rootScope, $scope, $filter, $log, $modalInstance, EndpointService, connector) {
        	  	$scope.endpoints = EndpointService.query();  
        	  	$log.info('After service call...$scope.endpoints.size = ' + $scope.endpoints.length);
+       	  	$scope.selected = $scope.endpoints[0];
             $scope.connector = connector;
             $scope['new'] = connector.id === null;          
-            $scope.connector.endPoint = "";
-            $scope.connector.consumeQueue=""; 
-            $scope.connector.produceQueue=""; 
+            //$scope.connector.endPoint = "";
+            //$scope.connector.consumeQueue=""; 
+            //$scope.connector.produceQueue=""; 
             $scope.connector.status = "STARTED";
             
             $scope.setEndPoint = function () {
-            	$log.info('Log...$scope.connector.endPoint = ' + $scope.connector.endPoint);
-            	$scope.connector.consumeQueue="seda://" + $scope.connector.endPoint + "/consume";
-                $scope.connector.produceQueue="seda://" + $scope.connector.endPoint + "/produce"; 
+            	$log.info('Log...$scope.connector.endPoint = ' + $scope.selected.application);
+            	//$scope.connector.consumeQueue="seda://" + $scope.connector.endPoint + "/consume";
+                //$scope.connector.produceQueue="seda://" + $scope.connector.endPoint + "/produce"; 
+            	$scope.connector.endPoint=$scope.selected.application;
+            	$scope.connector.consumeQueue=$scope.selected.consumeQueue;
+                $scope.connector.produceQueue=$scope.selected.produceQueue; 
             };
             
             $scope.cancel = function () {
@@ -134,6 +138,7 @@ angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$moda
         'connector',
         function ($rootScope, $scope, $filter, $log, $modalInstance, PostService, connector) {
             $scope.connector = connector;
+            $scope.connector.endPoint =  connector.endPoint;
             $scope.post = new PostService();
             $scope.post.queue=connector.produceQueue;
             

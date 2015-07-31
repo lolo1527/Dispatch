@@ -9,6 +9,10 @@ import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.broker.BrokerService;
 
 import com.lbi.mytestapplication.common.Status;
 import com.lbi.mytestapplication.domain.entity.Route;
@@ -33,11 +37,15 @@ public class DispocBootsrap {
 	
     @PostConstruct
     public void init() throws Exception {
+    	// init broker (amq)
+    	initBroker();
     	//init camel context
         logger.info(">> Create CamelContext");
         // Start Camel Context
         camelMgr.init();
         logger.info(">> CamelContext started");
+        //init amq component
+        camelMgr.initActiveMQ();
         // populateDB & camel context
         initDB();
     }
@@ -52,12 +60,14 @@ public class DispocBootsrap {
 		// create EP
 		EndPointDTO ep = new EndPointDTO();
 		ep.setApplication("JCDStream");
-		ep.setUrl("seda://JCDStream");
+		//ep.setUrl("seda://JCDStream");
+		ep.setUrl("activemq://jcdstream");
 		epMgr.createEndPoint(ep);
 		// create EP2
 		EndPointDTO ep2 = new EndPointDTO();
 		ep2.setApplication("OpenLayer");
-		ep2.setUrl("seda://OpenLayer");
+		//ep2.setUrl("seda://OpenLayer");
+		ep2.setUrl("activemq://openlayer");
 		epMgr.createEndPoint(ep2);
 		// create route
 		Route r = new Route();
@@ -72,5 +82,16 @@ public class DispocBootsrap {
 	public CamelManager getCamelManager(){
 		return camelMgr;
 	}
+	
+
+	public void initBroker() throws Exception{
+		logger.info(">> init AMQ Broker");
+		BrokerService broker = new BrokerService();
+		// configure the broker
+		broker.addConnector("tcp://localhost:61616");
+		broker.start();
+		//ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
+	}
+
     
 }
