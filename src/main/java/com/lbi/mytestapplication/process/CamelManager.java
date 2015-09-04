@@ -80,9 +80,9 @@ public class CamelManager {
 	public void addRoute(Route r) throws Exception {
         // Add Camel Route
 		final Endpoint sourceEp = getCamelEndpoint(r.getSource().getUrl() + "." + Constant.PRODUCE);
-		logger.info(">> sourceEp : " + sourceEp + " retrieved from context : " + r.getSource().getUrl() + Constant.PRODUCE);
+		logger.info(">> sourceEp : " + sourceEp + " retrieved from context : " + r.getSource().getUrl() + "." + Constant.PRODUCE);
 		final Endpoint destinationEp = getCamelEndpoint(r.getDestination().getUrl() + "." + Constant.CONSUME);
-		logger.info(">> destinationEp : " + destinationEp + " retrieved from context : " + r.getDestination().getUrl() + Constant.CONSUME);
+		logger.info(">> destinationEp : " + destinationEp + " retrieved from context : " + r.getDestination().getUrl() + "." + Constant.CONSUME);
 		final String routeId = r.getRouteId();
         RouteBuilder builder = new RouteBuilder() {
             public void configure() {
@@ -105,11 +105,11 @@ public class CamelManager {
 	}
 
 	public Endpoint getCamelEndpoint(String url) {
-		logger.info("url : " + url);
+		logger.info("getCamelEndpoint - url : " + url);
 		Map<String, Endpoint> map = camelCtx.getEndpointMap();
-		for(String key : map.keySet()){
+		/*for(String key : map.keySet()){
 			logger.info("key : " + key + " => ep : " + map.get(key));
-		}
+		}*/
 		return (Endpoint)map.get(url);
 	}
 

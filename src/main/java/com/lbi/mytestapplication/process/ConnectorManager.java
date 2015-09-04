@@ -51,6 +51,7 @@ public class ConnectorManager {
 	 * start the connector passed in parameter in the camel context
 	 * @param connect
 	 */
+	/* unused 
 	public void startConnector(Connector connect){
 		try {
 			if(connect.getConsumeQueue()!= null){
@@ -60,7 +61,7 @@ public class ConnectorManager {
 		} catch (Exception e) {
 			logger.severe(e.getMessage());
 		}
-	}
+	}*/
 	
 	/**
 	 * allow a connector to post a message in its defined produceQueue

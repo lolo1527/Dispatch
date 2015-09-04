@@ -24,7 +24,7 @@ public class PostProducer {
 		Endpoint endpoint = camelMgr.getCamelEndpoint(queue);
 		DefaultProducerTemplate producer = new DefaultProducerTemplate(camelCtx);
 		producer.start();
-		logger.info("producer started - sending message...");
+		logger.info("producer started - sending message to queue : " + queue + "=> camel endpoint = " + endpoint);
 		producer.sendBody(endpoint, message);
 		logger.info("message sent to : " + queue);
 		producer.stop();

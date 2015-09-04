@@ -23,12 +23,6 @@ public class PostConsumer {
 	@Inject
 	Processor processor;
 	
-/*	public void createConsumer(EndPoint endpoint){
-		Endpoint ep = camelMgr.getCamelEndpoint(endpoint.getUrl());
-		logger.info("endPoint = " + ep);
-		consumer =  new SedaConsumer((SedaEndpoint) ep, processor);
-	}
-*/
 
 	public void createConsumer(String queue) throws Exception{
 		Endpoint ep = camelMgr.getCamelEndpoint(queue);
@@ -45,12 +39,13 @@ public class PostConsumer {
 		consumer.start();
 	}
 
+	/* unused
 	public void startConsumer(String queue) throws Exception{
 		Endpoint ep = camelMgr.getCamelEndpoint(queue);
 		logger.info("endPoint = " + ep);
 		consumer =  ((SedaEndpoint) ep).getConsumers().iterator().next();
 		consumer.start();
-	}
+	}*/
 	
 	public void stop() throws Exception{
 		consumer.stop();

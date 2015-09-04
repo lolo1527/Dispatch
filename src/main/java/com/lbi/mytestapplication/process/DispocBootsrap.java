@@ -9,9 +9,7 @@ import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
-import javax.jms.ConnectionFactory;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 
 import com.lbi.mytestapplication.common.Status;
@@ -25,6 +23,7 @@ import com.lbi.mytestapplication.process.endpoint.EndPointMapper;
 public class DispocBootsrap {
 
 	Logger logger = Logger.getLogger(DispocBootsrap.class.getName());
+	BrokerService broker = null;
 
 	@Inject
 	EndPointManager epMgr;
@@ -53,6 +52,7 @@ public class DispocBootsrap {
     @PreDestroy
     public void stop() throws Exception {
     	camelMgr.stop();
+    	broker.stop();
     }
 
     
@@ -70,6 +70,7 @@ public class DispocBootsrap {
 		ep2.setUrl("activemq://openlayer");
 		epMgr.createEndPoint(ep2);
 		// create route
+		/*
 		Route r = new Route();
 		r.setDestination(EndPointMapper.mapProcessToDomainEntity(ep2));
 		r.setSource(EndPointMapper.mapProcessToDomainEntity(ep));
@@ -77,6 +78,7 @@ public class DispocBootsrap {
 		String id = r.getSource().getUrl()+ r.getDestination().getUrl();
 		r.setRouteId(String.valueOf(id.hashCode()));
 		routeMgr.createRoute(r);
+		*/
 	}
 
 	public CamelManager getCamelManager(){
@@ -86,7 +88,7 @@ public class DispocBootsrap {
 
 	public void initBroker() throws Exception{
 		logger.info(">> init AMQ Broker");
-		BrokerService broker = new BrokerService();
+		broker = new BrokerService();
 		// configure the broker
 		broker.addConnector("tcp://localhost:61616");
 		broker.start();
