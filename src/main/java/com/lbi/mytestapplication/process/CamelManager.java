@@ -50,18 +50,19 @@ public class CamelManager {
     
     public List<Endpoint> addJMSEndpoints(String url) throws Exception{
     	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
-    	//Endpoint produceQueue = camelCtx.getEndpoint(url + Constant.PRODUCE, JmsEndpoint.class);
-    	JmsQueueEndpoint produceQueue = new JmsQueueEndpoint(url + "." + Constant.PRODUCE, url);
+
+    	String pQueue = url + "." + Constant.PRODUCE;
+    	JmsQueueEndpoint produceQueue = new JmsQueueEndpoint(pQueue, pQueue);
     	produceQueue.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false"));
-    	//JmsEndpoint produceQueue = new JmsEndpoint(url + Constant.PRODUCE, url, false);
-    	camelCtx.addEndpoint(url + "." + Constant.PRODUCE, produceQueue);
-        logger.info(">> Endpoint : " + url + "." + Constant.PRODUCE + " added to context.");
+    	camelCtx.addEndpoint(pQueue, produceQueue);
+        logger.info(">> Endpoint : " + pQueue + " added to context.");
         endpoints.add(produceQueue);
-    	//Endpoint consumeQueue = camelCtx.getEndpoint(url + Constant.CONSUME, JmsEndpoint.class);
-        JmsQueueEndpoint consumeQueue = new JmsQueueEndpoint(url + "." + Constant.CONSUME, url);
+        
+    	String cQueue = url + "." + Constant.CONSUME;
+        JmsQueueEndpoint consumeQueue = new JmsQueueEndpoint(cQueue, cQueue);
     	consumeQueue.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false"));
-    	camelCtx.addEndpoint(url + "." + Constant.CONSUME, consumeQueue);
-        logger.info(">> Endpoint : " + url + "." + Constant.CONSUME + " added to context.");
+    	camelCtx.addEndpoint(cQueue, consumeQueue);
+        logger.info(">> Endpoint : " + cQueue + " added to context.");
         endpoints.add(consumeQueue);
         return endpoints;
     }

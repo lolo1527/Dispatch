@@ -29,10 +29,12 @@ public class ConnectorManager {
     private UserTransaction utx;
 
 	public void createConnector(Connector connect){
+		logger.info("creating connector for application : " + connect.getEndPoint());
 		try {
 			utx.begin();
 			connectDao.createConnector(connect);
 			if(connect.getConsumeQueue()!= null){
+				logger.info("connector consumes from : " + connect.getConsumeQueue());
 				consumer.createConsumer(connect.getConsumeQueue());
 				consumer.start();
 			}
@@ -45,6 +47,7 @@ public class ConnectorManager {
 				logger.log(Level.SEVERE, e.getMessage(),e);
 			}
 		}
+		logger.info("connector produces to : " + connect.getProduceQueue());
 	}
 
 	/**

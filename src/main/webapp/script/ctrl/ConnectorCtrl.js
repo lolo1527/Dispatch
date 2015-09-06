@@ -1,11 +1,11 @@
 angular.module('dispatch').controller('ConnectorCtrl', ['$scope', '$log', '$modal', 'EndpointService', 'ConnectorService', function ($scope, $log, $modal, EndpointService, ConnectorService) {
   
+  $log.info('service url = ' + ConnectorService.$url);
   $scope.connectors = ConnectorService.query();  
   
-  var connector = new ConnectorService();
-  $log.info('service url = ' + ConnectorService.$url);
   
   $scope.create = function () {
+	var connector = new ConnectorService();
     var modalInstance = $modal.open({
       templateUrl: 'views/connector/connector-edit-modal.html',
       controller: 'connectorEditModalController',

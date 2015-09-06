@@ -47,8 +47,8 @@ angular.module('dispatch').controller('EndpointCtrl', ['$scope', '$log', '$modal
             $scope['new'] = endpoint.id === null;          
             $scope.endpoint.application = null;
             $scope.endpoint.url = null;
-            $scope.endpoint.consumeQueue = $scope.endpoint.url + "/consume";
-            $scope.endpoint.produceQueue = $scope.endpoint.url + "/produce";
+            $scope.endpoint.consumeQueue = $scope.endpoint.url + ".consume";
+            $scope.endpoint.produceQueue = $scope.endpoint.url + ".produce";
             
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');

@@ -84,6 +84,12 @@ public class EndPointManager {
 			EndPointDTO epDto = EndPointMapper.mapDomainEntityToRestResource(ep, epc, epp);
 			dtos.add(epDto);
 		}
+		try {
+			DispocBootsrap.logBrokerService();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return dtos;
 	}
 

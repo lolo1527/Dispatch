@@ -11,6 +11,7 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 
 import org.apache.activemq.broker.BrokerService;
+import org.apache.activemq.command.ActiveMQDestination;
 
 import com.lbi.mytestapplication.common.Status;
 import com.lbi.mytestapplication.domain.entity.Route;
@@ -22,8 +23,8 @@ import com.lbi.mytestapplication.process.endpoint.EndPointMapper;
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DispocBootsrap {
 
-	Logger logger = Logger.getLogger(DispocBootsrap.class.getName());
-	BrokerService broker = null;
+	static Logger logger = Logger.getLogger(DispocBootsrap.class.getName());
+	static BrokerService broker = null;
 
 	@Inject
 	EndPointManager epMgr;
@@ -95,5 +96,20 @@ public class DispocBootsrap {
 		//ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 	}
 
+    public static BrokerService getBrokerService(){
+    	return broker;
+    }
     
+
+    public static void logBrokerService() throws Exception{
+    	ActiveMQDestination[] queues =  broker.getBroker().getDestinations();
+    	if(queues != null){
+	    	for(int i = 0; i < queues.length; i++){
+	    		logger.info("broker queue : " + queues[i].getQualifiedName() + " - " + queues[i].getPhysicalName());
+	    	}
+    	}else{
+    		logger.info("broker.getDestinations() = null");
+    	}
+    }
+
 }

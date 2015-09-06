@@ -8,7 +8,7 @@
             ng-show="environment.enabled"
             class="glyphicon glyphicon-ok text-success"
         ></span>
-        <span class="glyphicon glyphicon-th"></span>{{new ? 'New endpoint' : endpoint.name}}
+        <span class="glyphicon glyphicon-th"></span>{{new ? 'New application' : endpoint.name}}
     </h3>
 </div>
 
@@ -96,5 +96,5 @@
     <ol-progress></ol-progress-->
     
 	<button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-	<button class="btn" ng-click="save()" ng-class="{'btn-success': environmentCreate.$valid}" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>{{new ? 'Create' : 'Update'}}</button>
+	<button class="btn" ng-click="save()" ng-class="{'btn-success': environmentCreate.$valid}" ng-disabled=false><span class="glyphicon glyphicon-ok"></span>Save</button>
 </div>
