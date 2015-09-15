@@ -1,7 +1,6 @@
 package com.lbi.mytestapplication.process;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,8 +9,6 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import org.apache.camel.Endpoint;
-import org.apache.camel.component.jms.JmsEndpoint;
-import org.apache.camel.component.seda.SedaEndpoint;
 
 import com.lbi.mytestapplication.domain.EndPointDAO;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
@@ -49,7 +46,7 @@ public class EndPointManager {
 		}
 	}
 
-	public List<Endpoint> addCamelEndpoints(String url) throws Exception{
+	private List<Endpoint> addCamelEndpoints(String url) throws Exception{
 		List<Endpoint> endpoints = null;
 		if(url.startsWith("seda")){
 			endpoints = camelMgr.addSEDAEndpoints(url);
@@ -60,7 +57,7 @@ public class EndPointManager {
 	}
 	
 	
-	public Collection<Endpoint> getCamelEndpoints(){
+	/* public Collection<Endpoint> getCamelEndpoints(){
 		Collection<Endpoint> eps = camelMgr.getCamelEndpoints();
 		for (Endpoint ep : eps){
 			if(ep instanceof SedaEndpoint) {
@@ -73,7 +70,7 @@ public class EndPointManager {
 			}
 		}
 		return eps;
-	}
+	}*/
 
 	public List<EndPointDTO> getAllEndPoints() {
 		List<EndPointDTO> dtos = new ArrayList<EndPointDTO>();
@@ -87,8 +84,7 @@ public class EndPointManager {
 		try {
 			DispocBootsrap.logBrokerService();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 		return dtos;
 	}

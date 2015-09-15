@@ -1,10 +1,18 @@
 package com.lbi.mytestapplication.common;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lbi.mytestapplication.domain.entity.Connector;
 import com.lbi.mytestapplication.domain.entity.EndPoint;
 import com.lbi.mytestapplication.domain.entity.Post;
 import com.lbi.mytestapplication.domain.entity.Route;
+import com.lbi.mytestapplication.process.application.ApplicationDTO;
+import com.lbi.mytestapplication.process.application.QueueDTO;
 import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
+import com.lbi.mytestapplication.rest.ressource.Application;
+import com.lbi.mytestapplication.rest.ressource.Queue;
 
 public class EntityMapper {
 
@@ -123,6 +131,43 @@ public class EntityMapper {
 		//ep.setCqSize(epDto.getCqSize());
 		//ep.setPqSize(epDto.getPqSize());
 	    return ep;
+	}
+
+
+	public static Application mapDtoToRestResource(ApplicationDTO appDto) {
+		Application app = new Application();
+		app.setId(appDto.getId());
+		app.setName(appDto.getName());
+		app.setUrl(appDto.getUrl());
+		List<Queue> queues = new ArrayList<Queue>();
+		for(QueueDTO qDto : appDto.getQueues()){
+			Queue q = mapDtoToRestResource(qDto);
+			queues.add(q);
+		}
+		app.setQueues(queues);
+		return app;
+	}
+
+
+
+
+	private static Queue mapDtoToRestResource(QueueDTO qDto) {
+		Queue q = new Queue();
+		q.setId(qDto.getId());
+		q.setName(qDto.getName());
+		q.setFqName(qDto.getFqName());
+		q.setSize(qDto.getSize());
+		q.setTopic(qDto.isTopic());
+		return q;
+	}
+
+
+	public static ApplicationDTO mapRestResourceToDto(Application app, boolean useAmq) {
+		ApplicationDTO appDto = new ApplicationDTO(app.getName(), useAmq);
+		for(Queue queue : app.getQueues()){
+			appDto.addQueue(queue.getName());
+		}
+		return appDto;
 	}
 
 }

@@ -13,10 +13,8 @@ import javax.inject.Inject;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.command.ActiveMQDestination;
 
-import com.lbi.mytestapplication.common.Status;
-import com.lbi.mytestapplication.domain.entity.Route;
+import com.lbi.mytestapplication.process.application.ApplicationDTO;
 import com.lbi.mytestapplication.process.endpoint.EndPointDTO;
-import com.lbi.mytestapplication.process.endpoint.EndPointMapper;
 
 @Singleton
 @Startup
@@ -25,9 +23,14 @@ public class DispocBootsrap {
 
 	static Logger logger = Logger.getLogger(DispocBootsrap.class.getName());
 	static BrokerService broker = null;
+	// use amq in default mode
+	public static boolean useAmq = true;
 
 	@Inject
 	EndPointManager epMgr;
+
+	@Inject
+	ApplicationManager appMgr;
 
 	@Inject
 	RouteManager routeMgr;
@@ -45,7 +48,9 @@ public class DispocBootsrap {
         camelMgr.init();
         logger.info(">> CamelContext started");
         //init amq component
-        camelMgr.initActiveMQ();
+        if(useAmq){
+        	camelMgr.initActiveMQ();
+        }
         // populateDB & camel context
         initDB();
     }
@@ -70,6 +75,12 @@ public class DispocBootsrap {
 		//ep2.setUrl("seda://OpenLayer");
 		ep2.setUrl("activemq://openlayer");
 		epMgr.createEndPoint(ep2);
+		//create application 
+		ApplicationDTO app = new ApplicationDTO("Mosaic", useAmq);
+		app.addQueue("fr.consume");
+		app.addQueue("fr.produce");
+		app.addQueue("fr.processed");
+		appMgr.createApplication(app);
 		// create route
 		/*
 		Route r = new Route();
@@ -87,13 +98,18 @@ public class DispocBootsrap {
 	}
 	
 
-	public void initBroker() throws Exception{
+	public void initBroker() {
 		logger.info(">> init AMQ Broker");
 		broker = new BrokerService();
 		// configure the broker
-		broker.addConnector("tcp://localhost:61616");
-		broker.start();
-		//ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
+		try {
+			broker.addConnector("tcp://localhost:61616");
+			broker.start();
+		} catch (Exception e) {
+			logger.warning("Amq broker could not start => Exception : " + e.getMessage());
+			logger.warning("Amq broker could not start => using seda endpoint instead of amq");
+			useAmq = false;
+		}
 	}
 
     public static BrokerService getBrokerService(){
@@ -102,13 +118,11 @@ public class DispocBootsrap {
     
 
     public static void logBrokerService() throws Exception{
-    	ActiveMQDestination[] queues =  broker.getBroker().getDestinations();
-    	if(queues != null){
+    	if(broker != null && broker.getBroker().getDestinations() != null){
+        	ActiveMQDestination[] queues =  broker.getBroker().getDestinations();
 	    	for(int i = 0; i < queues.length; i++){
 	    		logger.info("broker queue : " + queues[i].getQualifiedName() + " - " + queues[i].getPhysicalName());
 	    	}
-    	}else{
-    		logger.info("broker.getDestinations() = null");
     	}
     }
 

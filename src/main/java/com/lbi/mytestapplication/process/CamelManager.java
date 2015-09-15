@@ -47,7 +47,7 @@ public class CamelManager {
 		camelCtx.addComponent("activemq", ActiveMQComponent.activeMQComponent("vm://localhost?broker.persistent=false"));
     }
     
-    
+    // TODO - to delete with app refactoring
     public List<Endpoint> addJMSEndpoints(String url) throws Exception{
     	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
 
@@ -67,6 +67,7 @@ public class CamelManager {
         return endpoints;
     }
     
+    // TODO - to delete with app refactoring
     public List<Endpoint> addSEDAEndpoints(String url){
     	ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
     	SedaEndpoint produceQueue = camelCtx.getEndpoint(url + Constant.PRODUCE, SedaEndpoint.class);
@@ -140,6 +141,22 @@ public class CamelManager {
 
 	public void pauseRoute(Route r) throws Exception {
 		camelCtx.suspendRoute(r.getRouteId());
+	}
+
+
+	public Endpoint addSEDAEndpoint(String fqName) {
+    	SedaEndpoint queue = camelCtx.getEndpoint(fqName, SedaEndpoint.class);
+        logger.info(">> Endpoint : " + fqName + " added to context.");
+		return queue;
+	}
+
+
+	public Endpoint addJMSEndpoint(String fqName) throws Exception {
+    	JmsQueueEndpoint queue = new JmsQueueEndpoint(fqName, fqName);
+    	queue.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false"));
+    	camelCtx.addEndpoint(fqName, queue);
+        logger.info(">> Endpoint : " + fqName + " added to context.");
+		return queue;
 	}
 
 }

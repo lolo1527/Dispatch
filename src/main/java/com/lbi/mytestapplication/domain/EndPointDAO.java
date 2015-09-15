@@ -7,7 +7,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.lbi.mytestapplication.domain.entity.EndPoint;
-import com.lbi.mytestapplication.domain.entity.Route;
 
 public class EndPointDAO {
 	
