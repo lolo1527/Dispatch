@@ -45,6 +45,10 @@ angular.module('dispatch', ['ngRoute','ngResource','dispatch.version','ui.bootst
                     templateUrl: 'views/index.html',
                     controller: 'indexController'
                 })
+                .when('/application', {
+                    templateUrl: 'views/application/application-list.html',
+                    controller: 'ApplicationCtrl'
+                })
                 .when('/endpoint', {
                     templateUrl: 'views/endpoint/endpoint-list.html',
                     controller: 'EndpointCtrl'
